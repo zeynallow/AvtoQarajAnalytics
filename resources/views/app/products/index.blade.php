@@ -68,7 +68,7 @@
                   </div>
                   <div class="col-md-2">
                     <label>&nbsp; </label>
-                    <button type="submit" name="submit" class="btn btn-success form-control">
+                    <button type="submit" name="submit" class="btn btn-primary form-control">
                       Davam et
                     </button>
                   </div>
@@ -76,23 +76,33 @@
               </form>
             </div>
           </div>
-          <br/><br/>
+          <br/>
 
           @if (\Session::has('error'))
             <div class="alert alert-danger">
               {!! \Session::get('error') !!}
             </div>
-            <br/><br/>
+            <br/>
           @endif
 
           @if (\Session::has('success'))
             <div class="alert alert-success">
               {!! \Session::get('success') !!}
             </div>
-            <br/><br/>
+            <br/>
           @endif
-          <a class="btn btn-success" href="{{ request()->fullUrl() . '&export=excel' }}">Export</a>
-          @if($result && count($result))
+
+          @if(!$result)
+            <div class="alert alert-info">
+              Sorğunu daxil edin
+            </div>
+          @elseif($result && count($result))
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <a class="btn btn-success" href="{{ request()->fullUrl() . '&export=excel' }}"><i class="fa fa-file-excel"></i> Export</a>
+              </div>
+            </div>
+            <br/>
             <div class="row">
               <div class="col-md-12 table-responsive">
                 <table class="table">

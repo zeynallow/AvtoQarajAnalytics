@@ -11,6 +11,7 @@ class ProductTrack extends Model
 
   protected $with = ['product','shop'];
 
+  
   public function product(){
     return $this->belongsTo('App\Product','product_id');
   }
