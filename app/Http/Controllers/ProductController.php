@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Exports\ProductTrackExport;
 use App\ProductTrack;
+use App\Shop;
 use DB;
 
 class ProductController extends Controller
@@ -48,7 +50,13 @@ class ProductController extends Controller
 
         $_result->orderBy('sum_click_count','desc');
         $_result->groupBy('product_id','shop_id');
-        $result = $_result->paginate(10);
+
+        if($request->get('export') && $request->get('export') == 'excel'){
+          $result = $_result->get();
+        }else{
+          $result = $_result->paginate(10);
+        }
+
       }
 
 
@@ -58,13 +66,16 @@ class ProductController extends Controller
         '3'=>'Digər'
       ];
 
-      $shops = [
-        'all'=>'Bütün mağazalar',
-        '1'=>'mercedes',
-        '2'=>'bmw'
-      ];
 
-      return view('app.products.index',compact('result','product_sources','shops'));
+      $shops = Shop::all();
+
+      if($request->get('export') && $request->get('export') == 'excel'){
+        return (new ProductTrackExport($result->toArray()))->download('products_export.xlsx');
+      }else{
+        return view('app.products.index',compact('result','product_sources','shops'));
+      }
+
     }
+
 
   }

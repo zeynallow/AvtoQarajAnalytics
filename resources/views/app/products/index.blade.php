@@ -55,80 +55,87 @@
                   <div class="form-group">
                     <label for="shop_id">Mağaza</label>
                     <select class="form-control" id="shop_id" name="shop_id">
+                      <option value="all">Bütün mağazalar</option>
                       @foreach ($shops as $key => $shop)
-                        <option value="{{$key}}"
-                        @if(request()->get('shop_id') && request()->get('shop_id') == $key)
-                          selected
-                        @endif>
-                        {{$shop}}</option>
-                      @endforeach
-                    </select>
+                        <option value="{{$shop->id}}"
+                          @if(request()->get('shop_id') && request()->get('shop_id') == $shop->id)
+                            selected
+                          @endif>
+                          {{$shop->name}}</option>
+                        @endforeach
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <label>&nbsp; </label>
+                    <button type="submit" name="submit" class="btn btn-success form-control">
+                      Davam et
+                    </button>
                   </div>
                 </div>
-                <div class="col-md-2">
-                  <label>&nbsp; </label>
-                  <button type="submit" name="submit" class="btn btn-success form-control">
-                    Davam et
-                  </button>
-                </div>
+              </form>
+            </div>
+          </div>
+          <br/><br/>
+
+          @if (\Session::has('error'))
+            <div class="alert alert-danger">
+              {!! \Session::get('error') !!}
+            </div>
+            <br/><br/>
+          @endif
+
+          @if (\Session::has('success'))
+            <div class="alert alert-success">
+              {!! \Session::get('success') !!}
+            </div>
+            <br/><br/>
+          @endif
+          <a class="btn btn-success" href="{{ request()->fullUrl() . '&export=excel' }}">Export</a>
+          @if($result && count($result))
+            <div class="row">
+              <div class="col-md-12 table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Məhsulun nömrəsi</th>
+                      <th>Məhsulun adı</th>
+                      <th>Mağaza</th>
+                      <th>Baxış sayı</th>
+                      <th>Baxış sayı (Unikal)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @if(count($result) > 0)
+                      @foreach ($result as $key => $product)
+                        <tr>
+                          <td><a target="_blank" href="{{env('PRIMARY_WEB_URL')}}/product/{{$product->product_id}}">{{$product->product_id}}</a></td>
+                          <td>{{($product->product) ? $product->product->product_name : ''}}</td>
+                          <td>{{($product->shop) ? $product->shop->name : ''}}</td>
+                          <td>{{$product->sum_click_count}}</td>
+                          <td>{{$product->sum_click_count_unique}}</td>
+                        </tr>
+                      @endforeach
+                    @endif
+
+                  </tbody>
+                </table>
               </div>
-            </form>
-          </div>
+              <div class="col-md-12">
+                {{$result}}
+              </div>
+            </div>
+          @else
+            <div class="alert alert-danger">
+              Sorğunun nəticəsi yoxdur
+            </div>
+          @endif
+
         </div>
-        <br/><br/>
-
-        @if (\Session::has('error'))
-          <div class="alert alert-danger">
-            {!! \Session::get('error') !!}
-          </div>
-          <br/><br/>
-        @endif
-
-        @if (\Session::has('success'))
-          <div class="alert alert-success">
-            {!! \Session::get('success') !!}
-          </div>
-          <br/><br/>
-        @endif
-
-        @if($result)
-          <div class="row">
-            <div class="col-md-12 table-responsive">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Məhsulun nömrəsi</th>
-                    <th>Mağaza</th>
-                    <th>Baxış sayı</th>
-                    <th>Baxış sayı (Unikal)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @if(count($result) > 0)
-                    @foreach ($result as $key => $product)
-                      <tr>
-                        <td>{{$product->product_id}}</td>
-                        <td>{{$product->shop_id}}</td>
-                        <td>{{$product->sum_click_count}}</td>
-                        <td>{{$product->sum_click_count_unique}}</td>
-                      </tr>
-                    @endforeach
-                  @endif
-
-                </tbody>
-              </table>
-            </div>
-            <div class="col-md-12">
-              {{$result}}
-            </div>
-          </div>
-        @endif
-
       </div>
     </div>
-  </div>
 
-</section>
+  </section>
 @endsection
 
 @push('javascript')
