@@ -3,7 +3,7 @@
 @section('content')
   <section class="section">
     <div class="section-header">
-      <h1>Kateqoriyalar</h1>
+      <h1>Mağazalar</h1>
     </div>
     <div class="section-body">
       <div class="card">
@@ -15,6 +15,7 @@
 
                 <div class="row">
                   <div class="col-md-4">
+
                     <div class="form-group">
                       <label>Tarixlər</label>
                       <div class="input-group">
@@ -28,15 +29,30 @@
                         class="form-control daterange-cus">
                       </div>
                     </div>
+
                   </div>
 
+                  <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="shop_id">Mağaza</label>
+                    <select class="form-control" id="shop_id" name="shop_id">
+                      <option value="all">Bütün mağazalar</option>
+                      @foreach ($shops as $key => $shop)
+                        <option value="{{$shop->id}}"
+                          @if(request()->get('shop_id') && request()->get('shop_id') == $shop->id)
+                            selected
+                          @endif>
+                          {{$shop->name}}</option>
+                        @endforeach
+                      </select>
+                    </div>
+                  </div>
                   <div class="col-md-2">
                     <label>&nbsp; </label>
                     <button type="submit" name="submit" class="btn btn-primary form-control">
                       Davam et
                     </button>
                   </div>
-
                 </div>
               </form>
             </div>
@@ -73,20 +89,20 @@
                 <table class="table">
                   <thead>
                     <tr>
-                      <th>Kateqoriya İD</th>
-                      <th>Kateqoriyanın adı</th>
+                      <th>Mağaza ID</th>
+                      <th>Mağazanın adı</th>
                       <th>Baxış sayı</th>
                       <th>Baxış sayı (Unikal)</th>
                     </tr>
                   </thead>
                   <tbody>
                     @if(count($result) > 0)
-                      @foreach ($result as $key => $category)
+                      @foreach ($result as $key => $shop)
                         <tr>
-                          <td>{{$category->category_id}}</td>
-                          <td>{{($category->category) ? $category->category->category_name : ''}}</td>
-                          <td>{{$category->sum_click_count}}</td>
-                          <td>{{$category->sum_click_count_unique}}</td>
+                          <td>{{$shop->shop_id}}</td>
+                          <td>{{($shop->shop) ? $shop->shop->name : ''}}</td>
+                          <td>{{$shop->sum_click_count}}</td>
+                          <td>{{$shop->sum_click_count_unique}}</td>
                         </tr>
                       @endforeach
                     @endif
@@ -103,6 +119,7 @@
               Sorğunun nəticəsi yoxdur
             </div>
           @endif
+
 
         </div>
       </div>

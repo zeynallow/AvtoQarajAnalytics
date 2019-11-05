@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Exports\CategoryTrackExport;
-use App\CategoryTrack;
+use App\Exports\RouteTrackExport;
+use App\RouteTrack;
 use DB;
 use DateTime;
 
-class CategoryController extends Controller
+class RouteTrackController extends Controller
 {
-
 
   public function index(Request $request){
 
@@ -36,8 +35,8 @@ class CategoryController extends Controller
         return redirect()->back()->with('error','Müddət 60 gündən çox olmamalıdır');
       }
 
-      $_result = CategoryTrack::select(
-        'category_id',
+      $_result = RouteTrack::select(
+        'route',
         DB::raw('SUM(click_count) AS sum_click_count'),
         DB::raw('SUM(click_count_unique) AS sum_click_count_unique')
         )
@@ -45,7 +44,7 @@ class CategoryController extends Controller
 
 
         $_result->orderBy('sum_click_count','desc');
-        $_result->groupBy('category_id');
+        $_result->groupBy('route');
 
         if($request->get('export') && $request->get('export') == 'excel'){
           $result = $_result->get();
@@ -57,12 +56,12 @@ class CategoryController extends Controller
 
 
       if($request->get('export') && $request->get('export') == 'excel'){
-        return (new CategoryTrackExport($result->toArray()))->download('categories_export.xlsx');
+        return (new RouteTrackExport($result->toArray()))->download('route_tracks_export.xlsx');
       }else{
-        return view('app.categories.index',compact('result'));
+        return view('app.route_tracks.index',compact('result'));
       }
 
     }
 
 
-  }
+}

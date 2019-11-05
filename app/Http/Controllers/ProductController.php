@@ -16,7 +16,7 @@ class ProductController extends Controller
 
     $result=NULL;
 
-    if($request->has('submit')){
+    if($request->date_range){
 
       if(!$request->date_range){
         return redirect()->back()->with('error','Tarixlər qeyd olunmayıb');
@@ -66,6 +66,7 @@ class ProductController extends Controller
           $result = $_result->get();
         }else{
           $result = $_result->paginate(10);
+          $result->appends(request()->query());
         }
 
       }

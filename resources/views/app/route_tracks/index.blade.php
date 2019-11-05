@@ -3,7 +3,7 @@
 @section('content')
   <section class="section">
     <div class="section-header">
-      <h1>Kateqoriyalar</h1>
+      <h1>Keçidlər</h1>
     </div>
     <div class="section-body">
       <div class="card">
@@ -73,20 +73,18 @@
                 <table class="table">
                   <thead>
                     <tr>
-                      <th>Kateqoriya İD</th>
-                      <th>Kateqoriyanın adı</th>
+                      <th>Keçid</th>
                       <th>Baxış sayı</th>
                       <th>Baxış sayı (Unikal)</th>
                     </tr>
                   </thead>
                   <tbody>
                     @if(count($result) > 0)
-                      @foreach ($result as $key => $category)
+                      @foreach ($result as $key => $route)
                         <tr>
-                          <td>{{$category->category_id}}</td>
-                          <td>{{($category->category) ? $category->category->category_name : ''}}</td>
-                          <td>{{$category->sum_click_count}}</td>
-                          <td>{{$category->sum_click_count_unique}}</td>
+                          <td>{{$route->route}}</td>
+                          <td>{{$route->sum_click_count}}</td>
+                          <td>{{$route->sum_click_count_unique}}</td>
                         </tr>
                       @endforeach
                     @endif
@@ -103,6 +101,7 @@
               Sorğunun nəticəsi yoxdur
             </div>
           @endif
+
 
         </div>
       </div>

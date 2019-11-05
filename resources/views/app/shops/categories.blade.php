@@ -3,7 +3,7 @@
 @section('content')
   <section class="section">
     <div class="section-header">
-      <h1>Kateqoriyalar</h1>
+      <h1>Mağazaların kateqoriyaları</h1>
     </div>
     <div class="section-body">
       <div class="card">
@@ -27,6 +27,22 @@
                         value="{{(request()->get('date_range')) ? request()->get('date_range') : ''}}"
                         class="form-control daterange-cus">
                       </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="shop_id">Mağaza</label>
+                    <select class="form-control" id="shop_id" name="shop_id">
+                      <option value="all">Bütün mağazalar</option>
+                      @foreach ($shops as $key => $shop)
+                        <option value="{{$shop->id}}"
+                          @if(request()->get('shop_id') && request()->get('shop_id') == $shop->id)
+                            selected
+                          @endif>
+                          {{$shop->name}}</option>
+                        @endforeach
+                      </select>
                     </div>
                   </div>
 
@@ -74,6 +90,7 @@
                   <thead>
                     <tr>
                       <th>Kateqoriya İD</th>
+                      <th>Mağaza adı</th>
                       <th>Kateqoriyanın adı</th>
                       <th>Baxış sayı</th>
                       <th>Baxış sayı (Unikal)</th>
@@ -81,12 +98,13 @@
                   </thead>
                   <tbody>
                     @if(count($result) > 0)
-                      @foreach ($result as $key => $category)
+                      @foreach ($result as $key => $shop_category)
                         <tr>
-                          <td>{{$category->category_id}}</td>
-                          <td>{{($category->category) ? $category->category->category_name : ''}}</td>
-                          <td>{{$category->sum_click_count}}</td>
-                          <td>{{$category->sum_click_count_unique}}</td>
+                          <td>{{$shop_category->category_id}}</td>
+                          <td>{{($shop_category->shop) ? $shop_category->shop->name : ''}}</td>
+                          <td>{{($shop_category->category) ? $shop_category->category->category_name : ''}}</td>
+                          <td>{{$shop_category->sum_click_count}}</td>
+                          <td>{{$shop_category->sum_click_count_unique}}</td>
                         </tr>
                       @endforeach
                     @endif
@@ -103,6 +121,7 @@
               Sorğunun nəticəsi yoxdur
             </div>
           @endif
+
 
         </div>
       </div>

@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Exports\CategoryTrackExport;
-use App\CategoryTrack;
+use App\Exports\ProductTrackExport;
+use App\ProductTrack;
+use App\Shop;
 use DB;
 use DateTime;
 
-class CategoryController extends Controller
+class CarSearchController extends Controller
 {
-
 
   public function index(Request $request){
 
@@ -59,10 +59,10 @@ class CategoryController extends Controller
       if($request->get('export') && $request->get('export') == 'excel'){
         return (new CategoryTrackExport($result->toArray()))->download('categories_export.xlsx');
       }else{
-        return view('app.categories.index',compact('result'));
+        return view('app.car_searches.index',compact('result'));
       }
 
     }
 
 
-  }
+}
