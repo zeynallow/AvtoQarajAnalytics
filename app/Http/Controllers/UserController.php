@@ -1,0 +1,99 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
+use App\User;
+use App\Shop;
+use App\Role;
+use App\ShopUser;
+
+class UserController extends Controller
+{
+
+  /*
+  * Users
+  */
+  public function index(){
+    $users = User::paginate(10);
+    return view('app.users.index',compact('users'));
+  }
+
+  /*
+  * Edit User
+  */
+  public function edit($user_id){
+    $user = User::where('id',$user_id)->firstOrFail();
+    $shops = Shop::all();
+    $roles = Role::all();
+
+    return view('app.users.edit',compact('user','shops','roles'));
+  }
+
+  /*
+  * Update User
+  */
+  public function update(Request $request,$user_id){
+
+    $request->validate([
+      'name' => 'required|string|max:255',
+      'email' => 'required|unique:users,email,'.$user_id,
+      'role_id' => 'required'
+    ]);
+
+    $change_password = [];
+
+    if($request->password != NULL){
+      $change_password = ['password'=>Hash::make($request->password)];
+    }
+
+    $update = User::where('id',$user_id)
+    ->update(array_merge([
+      'name'=>$request->name,
+      'email'=>$request->email,
+      'role_id'=>$request->role_id,
+      'shop_id'=>$request->shop_id
+    ],$change_password));
+
+
+    return redirect()->back();
+
+  }
+
+  /*
+  * Create User
+  */
+  public function create(){
+    $shops = Shop::all();
+    $roles = Role::all();
+    return view('app.users.create',compact('shops','roles'));
+  }
+
+  /*
+  * Store User
+  */
+  public function store(Request $request){
+
+    $request->validate([
+      'name' => 'required|string|max:255',
+      'email' => 'required|string|email|max:255|unique:users',
+      'password' => 'required|string|min:8',
+      'role_id' => 'required'
+    ]);
+
+    $store = User::create([
+      'name'=>$request->name,
+      'email'=>$request->email,
+      'password'=>Hash::make($request->password),
+      'role_id'=>$request->role_id,
+      'shop_id'=>$request->shop_id
+    ]);
+
+
+    return redirect()->route('users.index');
+
+  }
+
+}

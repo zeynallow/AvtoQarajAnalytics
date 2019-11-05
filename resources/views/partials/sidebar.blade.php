@@ -6,7 +6,7 @@
     <a href="#">{{ strtoupper(substr(env('APP_NAME'), 0, 2)) }}</a>
   </div>
   <ul class="sidebar-menu">
-    <li class="menu-header">Dashboard</li>
+    <li class="menu-header">İzlənmələr</li>
     <li class="{{ request()->is('/') ? 'active' : '' }}"><a class="nav-link" href="{{ url('/') }}"><i class="fa fa-columns"></i> <span>Dashboard</span></a></li>
     <li class="{{ request()->is('products') ? 'active' : '' }}"><a href="{{ route('products.index') }}"><i class="fa fa-table"></i> <span>Məhsullar</span></a></li>
     <li class="{{ request()->is('categories') ? 'active' : '' }}"><a href="{{ route('categories.index') }}"><i class="fa fa-table"></i> <span>Kateqoriyalar</span></a></li>
@@ -16,6 +16,7 @@
     <li class="{{ request()->is('car_searches') ? 'active' : '' }}"><a href="{{ route('car_searches.index') }}"><i class="fa fa-table"></i> <span>Avtomobil axtarışı</span></a></li>
 
     <li class="menu-header">İstifadəçilər</li>
-    <li><a class="nav-link" href=""><i class="fa fa-users"></i> <span>İstifadəçilər</span></a></li>
+    <li><a class="{{ request()->is('users/create') ? 'active' : '' }}" href="{{ route('users.create') }}"><i class="fa fa-users"></i> <span>Yeni İstifadəçi</span></a></li>
+    <li><a class="{{ request()->is('users') ? 'active' : '' }}" href="{{ route('users.index') }}"><i class="fa fa-users"></i> <span>İstifadəçilər</span></a></li>
   </ul>
 </aside>
