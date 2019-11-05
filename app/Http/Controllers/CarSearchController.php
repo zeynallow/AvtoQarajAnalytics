@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Exports\ProductTrackExport;
-use App\ProductTrack;
+use App\Exports\CarSearchTrackExport;
+use App\CarSearchTrack;
 use App\Shop;
 use DB;
 use DateTime;
@@ -36,8 +36,11 @@ class CarSearchController extends Controller
         return redirect()->back()->with('error','Müddət 60 gündən çox olmamalıdır');
       }
 
-      $_result = CategoryTrack::select(
-        'category_id',
+      $_result = CarSearchTrack::select(
+        'car_type_id',
+        'car_make_id',
+        'car_model_id',
+        'car_generation_id',
         DB::raw('SUM(click_count) AS sum_click_count'),
         DB::raw('SUM(click_count_unique) AS sum_click_count_unique')
         )
@@ -45,7 +48,7 @@ class CarSearchController extends Controller
 
 
         $_result->orderBy('sum_click_count','desc');
-        $_result->groupBy('category_id');
+        $_result->groupBy('car_type_id','car_make_id','car_model_id','car_generation_id');
 
         if($request->get('export') && $request->get('export') == 'excel'){
           $result = $_result->get();
@@ -57,7 +60,7 @@ class CarSearchController extends Controller
 
 
       if($request->get('export') && $request->get('export') == 'excel'){
-        return (new CategoryTrackExport($result->toArray()))->download('categories_export.xlsx');
+        return (new CarSearchTrackExport($result->toArray()))->download('car_search_export.xlsx');
       }else{
         return view('app.car_searches.index',compact('result'));
       }
