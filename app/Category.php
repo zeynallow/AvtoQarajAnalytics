@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $connection = 'mysql_primary';
+  protected $connection = 'mysql_primary';
 }

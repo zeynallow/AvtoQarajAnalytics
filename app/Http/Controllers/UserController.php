@@ -8,11 +8,13 @@ use Illuminate\Support\Facades\Hash;
 use App\User;
 use App\Shop;
 use App\Role;
+use App\CarType;
+use App\ShopUserCar;
 use App\ShopUser;
 
 class UserController extends Controller
 {
-  
+
   public function __construct(){
     $this->middleware('adminOnly');
   }
@@ -95,9 +97,63 @@ class UserController extends Controller
       'shop_id'=>$request->shop_id
     ]);
 
-
     return redirect()->route('users.index');
 
   }
+
+  /*
+  * shop_cars_index
+  */
+  public function shop_cars_index(){
+    $shop_user_cars = ShopUserCar::paginate(10);
+    return view('app.users.shop_cars',compact('shop_user_cars'));
+  }
+
+  /*
+  * shop_cars_create
+  */
+  public function shop_cars_create(){
+    $shops = Shop::all();
+    $car_types = CarType::all();
+    return view('app.users.shop_cars_create',compact('shops','car_types'));
+  }
+
+  /*
+  * shop_cars_store
+  */
+  public function shop_cars_store(Request $request){
+
+    $request->validate([
+      'shop_id' => 'required',
+      'id_car_type' => 'required',
+      'id_car_make' => 'required',
+    ]);
+
+    $store = ShopUserCar::create([
+      'shop_id'=>$request->shop_id,
+      'id_car_type'=>$request->id_car_type,
+      'id_car_make'=>$request->id_car_make
+    ]);
+
+    return redirect()->route('users.shop_cars_index');
+
+  }
+
+  /*
+  * shop_cars_store
+  */
+  public function shop_cars_delete($id){
+
+    $delete = ShopUserCar::where('id',$id)->delete();
+
+    return redirect()->back();
+  }
+
+
+
+
+
+
+
 
 }

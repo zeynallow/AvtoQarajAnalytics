@@ -35,5 +35,10 @@ Route::group(['middleware' => 'auth'], function () {
   Route::post('/users/edit/{user_id}', 'UserController@update')->name('users.update');
   Route::get('/users/create', 'UserController@create')->name('users.create');
   Route::post('/users/store', 'UserController@store')->name('users.store');
+  Route::get('/users/shop_cars', 'UserController@shop_cars_index')->name('users.shop_cars_index');
+  Route::get('/users/shop_cars/create', 'UserController@shop_cars_create')->name('users.shop_cars_create');
+  Route::post('/users/shop_cars/store', 'UserController@shop_cars_store')->name('users.shop_cars_store');
+  Route::get('/users/shop_cars/delete/{id}', 'UserController@shop_cars_delete')->name('users.shop_cars_delete');
+
 
 });

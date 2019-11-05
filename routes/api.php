@@ -20,4 +20,7 @@ Route::group(['middleware' => 'cors'], function () {
   Route::post('/carSearchTrack/car_search', 'API\CarSearchTrackController@carSearchTrack');
   Route::post('/shopTrack/shop', 'API\ShopTrackController@shopTrack');
   Route::post('/shopTrack/shop_category', 'API\ShopTrackController@shopCategoryTrack');
+
+  Route::get('/cardata/getMake/{car_type_id}', 'API\CarDataController@getMake');
+
 });

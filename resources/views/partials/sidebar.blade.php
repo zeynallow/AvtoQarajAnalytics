@@ -24,6 +24,7 @@
       <li class="menu-header">İstifadəçilər</li>
       <li><a class="{{ request()->is('users/create') ? 'active' : '' }}" href="{{ route('users.create') }}"><i class="fa fa-users"></i> <span>Yeni İstifadəçi</span></a></li>
       <li><a class="{{ request()->is('users') ? 'active' : '' }}" href="{{ route('users.index') }}"><i class="fa fa-users"></i> <span>İstifadəçilər</span></a></li>
+      <li><a class="{{ request()->is('/users/shop_cars') ? 'active' : '' }}" href="{{ route('users.shop_cars_index') }}"><i class="fa fa-users"></i> <span>Mağaza avtomobilləri</span></a></li>
     @endif
   </ul>
 </aside>
