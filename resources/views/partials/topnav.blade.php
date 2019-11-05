@@ -10,22 +10,13 @@
             <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
               <div class="d-sm-none d-lg-inline-block">{{(auth()->check()) ? auth()->user()->name : ''}}</div></a>
               <div class="dropdown-menu dropdown-menu-right">
-                <div class="dropdown-title">Welcome, John Doe</div>
-                <a href="#" class="dropdown-item has-icon">
-                  <i class="far fa-user"></i> Profile Settings
-                </a>
-                <div class="dropdown-divider"></div>
                 <a href="{{route('logout')}}" class="dropdown-item has-icon text-danger">
-                  <i class="fas fa-sign-out-alt"></i> Logout
+                  <i class="fas fa-sign-out-alt"></i> Çıxış
                 </a>
               </div>
             </li>
           @else
-              <a href="{{ route('login') }}">Login</a>
-
-              @if (Route::has('register'))
-                  <a href="{{ route('register') }}">Register</a>
-              @endif
+              <a href="{{ route('login') }}">Daxil ol</a>
           @endauth
   @endif
 
