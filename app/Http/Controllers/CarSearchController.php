@@ -7,12 +7,14 @@ use App\Exports\CarSearchTrackExport;
 use App\CarSearchTrack;
 use App\Shop;
 use DB;
+use Auth;
 use DateTime;
 
 class CarSearchController extends Controller
 {
 
   public function index(Request $request){
+    $user = Auth::user();
 
     $result=NULL;
 
@@ -47,6 +49,21 @@ class CarSearchController extends Controller
         ->whereBetween('date', [$start_date, $end_date]);
 
 
+        if($user->role_id == 2){
+
+          $user_shop_car_types = [];
+          $user_shop_car_makes = [];
+
+          foreach ($user->shop_cars as $key => $user_shop_car) {
+            $user_shop_car_types[]=$user_shop_car->id_car_type;
+            $user_shop_car_makes[]=$user_shop_car->id_car_make;
+          }
+
+          $_result->whereIn('car_type_id',$user_shop_car_types);
+          $_result->whereIn('car_make_id',$user_shop_car_makes);
+
+        }
+        
         $_result->orderBy('sum_click_count','desc');
         $_result->groupBy('car_type_id','car_make_id','car_model_id','car_generation_id');
 
@@ -68,4 +85,4 @@ class CarSearchController extends Controller
     }
 
 
-}
+  }

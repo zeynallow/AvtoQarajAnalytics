@@ -36,7 +36,7 @@
                 <table class="table">
                   <thead>
                     <tr>
-                      <th>Mağaza</th>
+                      <th>İstifadəçi</th>
                       <th>Nəqliyyatın növü</th>
                       <th>Marka</th>
                       <th></th>
@@ -46,7 +46,9 @@
                     @if(count($shop_user_cars) > 0)
                       @foreach ($shop_user_cars as $key => $shop_user_car)
                         <tr>
-                          <td>{{($shop_user_car->shop) ? $shop_user_car->shop->name : ''}}</td>
+                          <td>
+                            {{($shop_user_car->user) ? $shop_user_car->user->email .' - '. $shop_user_car->user->shop->name: ''}}
+                          </td>
                           <td>{{($shop_user_car->car_type) ? $shop_user_car->car_type->name : ''}}</td>
                           <td>{{($shop_user_car->car_make) ? $shop_user_car->car_make->name : ''}}</td>
                           <td><a href="{{ route('users.shop_cars_delete',$shop_user_car->id)}}" class="btn btn-danger"><i class="fa fa-times"></i></a></td>

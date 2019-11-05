@@ -29,11 +29,11 @@
           <form action="{{ route('users.shop_cars_store') }}" method="post">
 
             <div class="form-group">
-              <label for="shop_id">Mağaza</label>
-              <select class="form-control" name="shop_id" id="shop_id">
+              <label for="shop_id">İstifadəçi</label>
+              <select class="form-control" name="user_id" id="user_id">
                 <option value="0">Seçin</option>
-                @foreach ($shops as $key => $shop)
-                  <option value="{{$shop->id}}">{{$shop->name}}</option>
+                @foreach ($users as $key => $user)
+                  <option value="{{$user->id}}">{{$user->email}} - {{($user->shop) ? $user->shop->name : ''}}</option>
                 @endforeach
               </select>
             </div>

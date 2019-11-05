@@ -15,7 +15,7 @@ class CreateShopUserCarsTable extends Migration
     {
         Schema::create('shop_user_cars', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('shop_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->integer('id_car_type')->unsigned();
             $table->integer('id_car_make')->unsigned();
             $table->timestamps();

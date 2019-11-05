@@ -42,7 +42,7 @@ class User extends Authenticatable
   }
 
   public function shop_cars(){
-    return $this->belongsTo('App\ShopUserCar','shop_id');
+    return $this->hasMany('App\ShopUserCar','user_id');
   }
 
 }

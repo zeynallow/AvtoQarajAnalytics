@@ -113,9 +113,9 @@ class UserController extends Controller
   * shop_cars_create
   */
   public function shop_cars_create(){
-    $shops = Shop::all();
+    $users = User::where('role_id',2)->get();
     $car_types = CarType::all();
-    return view('app.users.shop_cars_create',compact('shops','car_types'));
+    return view('app.users.shop_cars_create',compact('users','car_types'));
   }
 
   /*
@@ -124,13 +124,13 @@ class UserController extends Controller
   public function shop_cars_store(Request $request){
 
     $request->validate([
-      'shop_id' => 'required',
+      'user_id' => 'required',
       'id_car_type' => 'required',
       'id_car_make' => 'required',
     ]);
 
     $store = ShopUserCar::create([
-      'shop_id'=>$request->shop_id,
+      'user_id'=>$request->user_id,
       'id_car_type'=>$request->id_car_type,
       'id_car_make'=>$request->id_car_make
     ]);
