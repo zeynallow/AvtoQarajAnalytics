@@ -11,16 +11,18 @@
 |
 */
 
-Auth::routes();
 
+// Authentication Routes...
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
+Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::group(['middleware' => 'auth'], function () {
   Route::get('/', 'HomeController@index')->name('home');
   Route::get('/home', 'HomeController@index');
-
   Route::get('/test', 'HomeController@test');
 
-
+  
   Route::get('/products', 'ProductController@index')->name('products.index');
   Route::get('/categories', 'CategoryController@index')->name('categories.index');
   Route::get('/car_searches', 'CarSearchController@index')->name('car_searches.index');
