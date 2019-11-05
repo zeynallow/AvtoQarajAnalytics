@@ -29,7 +29,7 @@ function carSearchTrack(car_type_id,car_make_id,car_model_id,car_generation_id){
 }
 
 function aqTrackingSend(endpoint,data){
-  var aq_tracking_url = 'http://localhost:8000';
+  var aq_tracking_url = 'https://analytics.avtoqaraj.az/';
 
   setTimeout(function(){
     $.ajax({
