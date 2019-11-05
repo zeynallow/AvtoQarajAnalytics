@@ -13,9 +13,11 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::post('/categoryTrack/category', 'API\CategoryTrackController@categoryTrack');
-Route::post('/routeTrack/route', 'API\RouteTrackController@routeTrack');
-Route::post('/productTrack/product', 'API\ProductTrackController@productTrack');
-Route::post('/carSearchTrack/car_search', 'API\CarSearchTrackController@carSearchTrack');
-Route::post('/shopTrack/shop', 'API\ShopTrackController@shopTrack');
-Route::post('/shopTrack/shop_category', 'API\ShopTrackController@shopCategoryTrack');
+Route::group(['middleware' => 'cors'], function () {
+  Route::post('/categoryTrack/category', 'API\CategoryTrackController@categoryTrack');
+  Route::post('/routeTrack/route', 'API\RouteTrackController@routeTrack');
+  Route::post('/productTrack/product', 'API\ProductTrackController@productTrack');
+  Route::post('/carSearchTrack/car_search', 'API\CarSearchTrackController@carSearchTrack');
+  Route::post('/shopTrack/shop', 'API\ShopTrackController@shopTrack');
+  Route::post('/shopTrack/shop_category', 'API\ShopTrackController@shopCategoryTrack');
+});
