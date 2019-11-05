@@ -63,8 +63,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-      abort(400);
-
+      abort(404);
         // return User::create([
         //     'name' => $data['name'],
         //     'email' => $data['email'],
