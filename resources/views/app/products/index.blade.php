@@ -36,33 +36,47 @@
                     <div class="form-group">
                       <label for="product_source">Məhsulun mənbəyi</label>
                       <select class="form-control" id="product_source" name="product_source">
-                        @foreach ($product_sources as $key => $product_source)
-                          <option value="{{$key}}"
-                          @if(request()->get('product_source') && request()->get('product_source') == $key)
-                            selected
-                          @endif>
-                          {{$product_source}}</option>
-                        @endforeach
+                        @if(auth()->user()->role_id == 1)
+                          @foreach ($product_sources as $key => $product_source)
+                            <option value="{{$key}}"
+                            @if(request()->get('product_source') && request()->get('product_source') == $key)
+                              selected
+                            @endif>
+                            {{$product_source}}</option>
+                          @endforeach
+                        @elseif(auth()->user()->role_id == 2)
+                          <option value="2">Mağaza</option>
+                        @endif
 
                       </select>
                     </div>
                   </div>
                   <div class="col-md-3" id="select_shop"
-                  style="{{
-                    (request()->get('product_source') && request()->get('product_source') == 2) ? 'display:block' : 'display:none'
-                  }}"
+                  @if(auth()->user()->role_id == 1)
+                    style="{{
+                      (request()->get('product_source') && request()->get('product_source') == 2) ? 'display:block' : 'display:none'
+                    }}"
+                  @elseif(auth()->user()->role_id == 2)
+                    style="display:block"
+                  @endif
                   >
                   <div class="form-group">
                     <label for="shop_id">Mağaza</label>
                     <select class="form-control" id="shop_id" name="shop_id">
-                      <option value="all">Bütün mağazalar</option>
-                      @foreach ($shops as $key => $shop)
-                        <option value="{{$shop->id}}"
-                          @if(request()->get('shop_id') && request()->get('shop_id') == $shop->id)
-                            selected
-                          @endif>
-                          {{$shop->name}}</option>
-                        @endforeach
+                      @if(auth()->user()->role_id == 1)
+                        <option value="all">Bütün mağazalar</option>
+                        @foreach ($shops as $key => $shop)
+                          <option value="{{$shop->id}}"
+                            @if(request()->get('shop_id') && request()->get('shop_id') == $shop->id)
+                              selected
+                            @endif>
+                            {{$shop->name}}</option>
+                          @endforeach
+                        @elseif(auth()->user()->role_id == 2)
+                          @if(auth()->user()->shop)
+                            <option value="{{auth()->user()->shop->id}}">{{auth()->user()->shop->name}}</option>
+                          @endif
+                        @endif
                       </select>
                     </div>
                   </div>

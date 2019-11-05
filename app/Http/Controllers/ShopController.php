@@ -10,11 +10,14 @@ use App\ShopCategoryTrack;
 use App\Shop;
 use DB;
 use DateTime;
+use Auth;
 
 class ShopController extends Controller
 {
 
   public function index(Request $request){
+
+    $user = Auth::user();
 
     $result=NULL;
 
@@ -46,9 +49,15 @@ class ShopController extends Controller
         ->whereBetween('date', [$start_date, $end_date]);
 
 
-        if($request->shop_id != "all"){
-          $_result->where('shop_id',$request->shop_id);
+        if($user->role_id == 1){
+          if($request->shop_id != "all"){
+            $_result->where('shop_id',$request->shop_id);
+          }
+        }elseif($user->role_id == 2){
+          $_result->where('shop_id',$user->shop_id);
         }
+
+
 
         $_result->orderBy('sum_click_count','desc');
         $_result->groupBy('shop_id');
@@ -75,7 +84,7 @@ class ShopController extends Controller
 
 
   public function categories(Request $request){
-
+    $user = Auth::user();
     $result=NULL;
 
     if($request->date_range){
@@ -107,9 +116,14 @@ class ShopController extends Controller
         ->whereBetween('date', [$start_date, $end_date]);
 
 
-        if($request->shop_id != "all"){
-          $_result->where('shop_id',$request->shop_id);
+        if($user->role_id == 1){
+          if($request->shop_id != "all"){
+            $_result->where('shop_id',$request->shop_id);
+          }
+        }elseif($user->role_id == 2){
+          $_result->where('shop_id',$user->shop_id);
         }
+
 
         $_result->orderBy('sum_click_count','desc');
         $_result->groupBy('category_id','shop_id');

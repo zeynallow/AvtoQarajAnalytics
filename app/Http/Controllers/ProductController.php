@@ -8,12 +8,13 @@ use App\ProductTrack;
 use App\Shop;
 use DB;
 use DateTime;
+use Auth;
 
 class ProductController extends Controller
 {
 
   public function index(Request $request){
-
+    $user = Auth::user();
     $result=NULL;
 
     if($request->date_range){
@@ -48,16 +49,21 @@ class ProductController extends Controller
         )
         ->whereBetween('date', [$start_date, $end_date]);
 
-
-        if($request->product_source == 2){ //shop
-          if($request->shop_id == "all"){
-            $_result->where('shop_id','!=',0); //all shop
-          }else{
-            $_result->where('shop_id',$request->shop_id);
+        if($user->role_id == 1){
+          if($request->product_source == 2){ //shop
+            if($request->shop_id == "all"){
+              $_result->where('shop_id','!=',0); //all shop
+            }else{
+              $_result->where('shop_id',$request->shop_id);
+            }
+          }elseif($request->product_source == 3){ //other
+            $_result->where('shop_id',0);
           }
-        }elseif($request->product_source == 3){ //other
-          $_result->where('shop_id',0);
+        }elseif($user->role_id == 2){
+          $_result->where('shop_id',$user->shop_id);
         }
+
+
 
         $_result->orderBy('sum_click_count','desc');
         $_result->groupBy('product_id','shop_id');
@@ -71,6 +77,7 @@ class ProductController extends Controller
 
       }
 
+      //==
 
       $product_sources = [
         '1'=>'Hamısı',
