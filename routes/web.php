@@ -30,6 +30,19 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/shops', 'ShopController@index')->name('shops.index');
   Route::get('/shops/categories', 'ShopController@categories')->name('shops.categories');
 
+  Route::get('/social_reports', 'SocialReportController@index')->name('social_reports.index');
+  Route::get('/social_reports/create', 'SocialReportController@create')->name('social_reports.create');
+  Route::post('/social_reports/store', 'SocialReportController@store')->name('social_reports.store');
+  Route::get('/social_reports/reports', 'SocialReportController@reports')->name('social_reports.reports');
+
+  Route::get('/social_reports/cancelRequest/{request_id}', 'SocialReportController@cancelRequest')->name('social_reports.cancelRequest');
+  Route::get('/social_reports/confirmRequest/{request_id}', 'SocialReportController@confirmRequest')->name('social_reports.confirmRequest');
+
+  Route::get('/social_reports/getProductInfo/{product_id}', 'SocialReportController@getProductInfo')->name('social_reports.getProductInfo');
+
+
+
+
   Route::get('/users', 'UserController@index')->name('users.index');
   Route::get('/users/edit/{user_id}', 'UserController@edit')->name('users.edit');
   Route::post('/users/edit/{user_id}', 'UserController@update')->name('users.update');

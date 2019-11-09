@@ -20,6 +20,12 @@
     <li class="{{ request()->is('shops/categories') ? 'active' : '' }}"><a href="{{ route('shops.categories') }}"><i class="fa fa-table"></i> <span>Mağaza kateqoriyaları</span></a></li>
     <li class="{{ request()->is('car_searches') ? 'active' : '' }}"><a href="{{ route('car_searches.index') }}"><i class="fa fa-table"></i> <span>Avtomobil axtarışı</span></a></li>
 
+    <li class="menu-header">Sosial şəbəkə</li>
+    <li class="{{ request()->is('social_reports/create') ? 'active' : '' }}"><a href="{{ route('social_reports.create') }}"><i class="fa fa-plus"></i> <span>Müraciət yarat</span></a></li>
+    <li class="{{ request()->is('social_reports') ? 'active' : '' }}"><a href="{{ route('social_reports.index') }}"><i class="fa fa-table"></i> <span>Müraciətlər</span></a></li>
+    <li class="{{ request()->is('social_reports/reports') ? 'active' : '' }}"><a href="{{ route('social_reports.reports') }}"><i class="fa fa-chart-pie"></i> <span>Hesabat</span></a></li>
+
+
     @if(auth()->user()->role_id == 1)
       <li class="menu-header">İstifadəçilər</li>
       <li><a class="{{ request()->is('users/create') ? 'active' : '' }}" href="{{ route('users.create') }}"><i class="fa fa-users"></i> <span>Yeni İstifadəçi</span></a></li>
