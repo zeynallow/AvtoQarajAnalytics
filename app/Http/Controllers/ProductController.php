@@ -63,8 +63,6 @@ class ProductController extends Controller
           $_result->where('shop_id',$user->shop_id);
         }
 
-
-
         $_result->orderBy('sum_click_count','desc');
         $_result->groupBy('product_id','shop_id');
 
