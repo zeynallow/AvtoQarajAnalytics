@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Notifications\NewSocialRequest;
+use Illuminate\Support\Facades\Notification;
+
 use App\Product;
 use App\SocialReport;
 use App\Shop;
+use App\User;
 use Auth;
 
 class SocialReportController extends Controller
@@ -90,6 +94,8 @@ class SocialReportController extends Controller
     ]);
 
     if($store){
+      $notify_users = User::where('shop_id',$request->shop_id)->get();
+      Notification::send($notify_users, new NewSocialRequest($store));
       return redirect()->back()->with('success','Müraciət əlavə olundu');
     }else{
       return redirect()->back()->with('error','Səhv baş verdi');
