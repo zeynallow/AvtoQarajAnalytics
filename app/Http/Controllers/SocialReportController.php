@@ -63,11 +63,9 @@ class SocialReportController extends Controller
   public function store(Request $request){
 
     $request->validate([
-      'client_name'=>'required',
       'shop_id'=>'required'
     ],
     [
-      'client_name.required'=>'Müştərinin adını qeyd edin',
       'shop_id.required'=>'Mağaza seçilməyib'
     ]);
 
