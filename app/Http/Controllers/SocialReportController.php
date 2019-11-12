@@ -29,19 +29,33 @@ class SocialReportController extends Controller
   1 = Approve
   */
 
+  /*
+  * index
+  */
   public function index(Request $request){
-    $reports = SocialReport::orderBy('status','asc')
-    ->where('report_status','!=',6)
-    ->where('report_status','!=',7)
-    ->paginate(10);
+    $_reports = SocialReport::orderBy('status','asc');
+    $_reports->where('report_status','!=',6);
+    $_reports->where('report_status','!=',7);
+
+    if(Auth::user()->role_id == 2){
+      $_reports->where('shop_id',Auth::user()->shop_id);
+    }
+
+    $reports = $_reports->paginate(10);
     return view('app.social_reports.index',compact('reports'));
   }
 
+  /*
+  * create
+  */
   public function create(Request $request){
     $shops = Shop::all();
     return view('app.social_reports.create',compact('shops'));
   }
 
+  /*
+  * Store
+  */
   public function store(Request $request){
 
     $request->validate([
@@ -141,6 +155,7 @@ class SocialReportController extends Controller
       'report_status'=>($user_role == 2) ? 2 : 5,
       'status'=>1
     ]);
+
     return redirect()->back();
   }
 
