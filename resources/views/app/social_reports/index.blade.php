@@ -45,7 +45,13 @@
                             Whatsapp
                           @endif
                         </td>
-                        <td width="20%"><a target="_blank" href="{{env('PRIMARY_WEB_URL')}}/product/{{$report->product_id}}">#{{$report->product_id}} - {{$report->product_name}}</a></td>
+                        <td width="20%">
+                          @if($report->product_id)
+                            <a target="_blank" href="{{env('PRIMARY_WEB_URL')}}/product/{{$report->product_id}}">#{{$report->product_id}} - {{$report->product_name}}</a>
+                          @else
+                            {{$report->product_name}}
+                          @endif
+                        </td>
                         <td>
                           @if($report->report_status == 0)
                             <span class="btn btn-info btn-sm">Müştəridən cavab gözlənir</span>
@@ -146,7 +152,13 @@
               </div>
               <div class="row mt-3">
                 <div class="col-md-6">Məhsul</div>
-                <div class="col-md-6"><a target="_blank" href="{{env('PRIMARY_WEB_URL')}}/product/{{$report->product_id}}">#{{$report->product_id}} - {{$report->product_name}}</a></div>
+                <div class="col-md-6">
+                  @if($report->product_id)
+                    <a target="_blank" href="{{env('PRIMARY_WEB_URL')}}/product/{{$report->product_id}}">#{{$report->product_id}} - {{$report->product_name}}</a>
+                  @else
+                    {{$report->product_name}}
+                  @endif
+                </div>
               </div>
               <div class="row mt-3">
                 <div class="col-md-6">Müştərinin adı</div>
