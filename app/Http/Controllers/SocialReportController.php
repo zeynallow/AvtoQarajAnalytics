@@ -38,6 +38,7 @@ class SocialReportController extends Controller
   */
   public function index(Request $request){
     $_reports = SocialReport::orderBy('status','asc');
+    $_reports->orderBy('created_at','desc');
     $_reports->where('report_status','!=',6);
     $_reports->where('report_status','!=',7);
 
