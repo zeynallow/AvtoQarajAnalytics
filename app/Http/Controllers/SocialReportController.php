@@ -6,17 +6,21 @@ use Illuminate\Http\Request;
 use App\Product;
 use App\SocialReport;
 use App\Shop;
+use Auth;
 
 class SocialReportController extends Controller
 {
 
   /*
   Report Status
+  0 = Incomplete
   1 = Pending
   2 = Partner Cancelled
   3 = Partner Replied
   4 = Staff Replied
   5 = Staff Cancelled
+  6 = Staff Soft Delete
+  7 = Partner Soft Delete
   */
 
   /*
@@ -27,6 +31,8 @@ class SocialReportController extends Controller
 
   public function index(Request $request){
     $reports = SocialReport::orderBy('status','asc')
+    ->where('report_status','!=',6)
+    ->where('report_status','!=',7)
     ->paginate(10);
     return view('app.social_reports.index',compact('reports'));
   }
@@ -39,10 +45,19 @@ class SocialReportController extends Controller
   public function store(Request $request){
 
     $request->validate([
-      'client_contact'=>'required',
       'client_name'=>'required',
       'shop_id'=>'required'
+    ],
+    [
+      'client_name.required'=>'Müştərinin adını qeyd edin',
+      'shop_id.required'=>'Mağaza seçilməyib'
     ]);
+
+    if(empty($request->client_contact)){
+      $report_status = 0;//Incomplete
+    }else{
+      $report_status = 1; //Pending
+    }
 
     $store = SocialReport::create([
       'network_type'=>$request->network_type,
@@ -56,7 +71,7 @@ class SocialReportController extends Controller
       'client_auto_year'=>$request->client_auto_year,
       'client_auto_vin'=>$request->client_auto_vin,
       'partner_comment'=>$request->partner_comment,
-      'report_status'=>1,
+      'report_status'=>$report_status,
       'status'=>0
     ]);
 
@@ -68,7 +83,6 @@ class SocialReportController extends Controller
 
 
   }
-
 
 
   public function reports(Request $request){
@@ -92,12 +106,52 @@ class SocialReportController extends Controller
   }
 
   /*
+  * addClientContact
+  */
+  public function addClientContact(Request $request,$request_id){
+
+    $user_role = Auth::user()->role_id;
+
+    if($user_role == 2){
+      return redirect()->back();
+    }
+
+    if(empty($request->client_contact)){
+      return redirect()->back();
+    }
+
+    $reports = SocialReport::where('id',$request_id)
+    ->update([
+      'client_contact'=>$request->client_contact,
+      'report_status'=>1, //pending
+      'status'=>1
+    ]);
+
+    return redirect()->back();
+  }
+  /*
   * cancelRequest
   */
   public function cancelRequest($request_id){
+
+    $user_role = Auth::user()->role_id;
+
     $reports = SocialReport::where('id',$request_id)
     ->update([
-      'report_status'=>2, // or 5 - shop
+      'report_status'=>($user_role == 2) ? 2 : 5,
+      'status'=>1
+    ]);
+    return redirect()->back();
+  }
+
+  /*
+  * Soft Delete
+  */
+  public function softDeleteRequest($request_id){
+    $user_role = Auth::user()->role_id;
+    $reports = SocialReport::where('id',$request_id)
+    ->update([
+      'report_status'=>($user_role == 2) ? 7 : 6,
       'status'=>1
     ]);
     return redirect()->back();
@@ -107,9 +161,10 @@ class SocialReportController extends Controller
   * confirmRequest
   */
   public function confirmRequest($request_id){
+    $user_role = Auth::user()->role_id;
     $reports = SocialReport::where('id',$request_id)
     ->update([
-      'report_status'=>4, // or 3 - shop
+      'report_status'=>($user_role == 2) ? 3 : 4,
       'status'=>1
     ]);
     return redirect()->back();

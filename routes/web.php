@@ -16,8 +16,8 @@
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
-
-Route::group(['middleware' => 'auth'], function () {
+//RolesAuth
+Route::group(['middleware' => ['auth','RolesAuth']], function () {
   Route::get('/', 'HomeController@index')->name('home');
   Route::get('/home', 'HomeController@index');
   Route::get('/test', 'HomeController@test');
@@ -37,7 +37,8 @@ Route::group(['middleware' => 'auth'], function () {
 
   Route::get('/social_reports/cancelRequest/{request_id}', 'SocialReportController@cancelRequest')->name('social_reports.cancelRequest');
   Route::get('/social_reports/confirmRequest/{request_id}', 'SocialReportController@confirmRequest')->name('social_reports.confirmRequest');
-
+  Route::get('/social_reports/softDeleteRequest/{request_id}', 'SocialReportController@softDeleteRequest')->name('social_reports.softDeleteRequest');
+  Route::post('/social_reports/addClientContact/{request_id}', 'SocialReportController@addClientContact')->name('social_reports.addClientContact');
   Route::get('/social_reports/getProductInfo/{product_id}', 'SocialReportController@getProductInfo')->name('social_reports.getProductInfo');
 
 
@@ -53,5 +54,10 @@ Route::group(['middleware' => 'auth'], function () {
   Route::post('/users/shop_cars/store', 'UserController@shop_cars_store')->name('users.shop_cars_store');
   Route::get('/users/shop_cars/delete/{id}', 'UserController@shop_cars_delete')->name('users.shop_cars_delete');
 
+  Route::get('/settings', 'SettingController@index')->name('settings.index');
+  Route::get('/settings/updatePermissions', 'SettingController@updatePermissions')->name('settings.updatePermissions');
+  Route::get('/settings/roles', 'SettingController@roles')->name('settings.roles');
+  Route::get('/settings/roles/{role_id}/permissions', 'SettingController@roles_permissions')->name('settings.roles.permissions');
+  Route::post('/settings/roles/{role_id}/permissions', 'SettingController@roles_permissions_update')->name('settings.roles.permissions.update');
 
 });

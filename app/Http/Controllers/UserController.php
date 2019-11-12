@@ -15,9 +15,6 @@ use App\ShopUser;
 class UserController extends Controller
 {
 
-  public function __construct(){
-    $this->middleware('adminOnly');
-  }
 
   /*
   * Users

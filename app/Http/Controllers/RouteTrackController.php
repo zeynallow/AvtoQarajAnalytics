@@ -11,9 +11,6 @@ use DateTime;
 class RouteTrackController extends Controller
 {
 
-  public function __construct(){
-    $this->middleware('adminOnly');
-  }
 
   public function index(Request $request){
 
