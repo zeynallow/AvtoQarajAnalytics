@@ -12,7 +12,7 @@
           <form class="" action="" method="get">
             <div class="row">
               <div class="col-md-4">
-                <select class="form-control" name="shop_id">
+                <select class="select2 form-control" name="shop_id">
                   <option value="">Bütün mağazalar</option>
                   @foreach ($shops as $key => $shop)
                     @if(request()->get('shop_id') == $shop->id)

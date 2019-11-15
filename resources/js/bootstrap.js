@@ -22,6 +22,7 @@ require('./stisla/stisla');
 require('./stisla/daterangepicker');
 require('./stisla/scripts');
 require('./stisla/custom');
+require('./stisla/select2.min');
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that

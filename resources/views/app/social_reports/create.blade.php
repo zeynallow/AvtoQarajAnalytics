@@ -105,7 +105,7 @@
 
               <div class="col-md-3">
                 <label for="shop_name">Mağaza</label>
-                <select class="form-control" id="shop_id" name="shop_id">
+                <select class="form-control select2" id="shop_id" name="shop_id">
                   <option value=""></option>
                   @foreach ($shops as $key => $shop)
                     @if(old('shop_id') == $shop->id)

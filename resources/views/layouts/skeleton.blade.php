@@ -7,6 +7,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="stylesheet" href="{{ mix('css/app.css') }}">
   <link rel="stylesheet" href="/css/daterangepicker.css">
+  <link rel="stylesheet" href="/css/select2.min.css">
   @stack('stylesheet')
 </head>
 
