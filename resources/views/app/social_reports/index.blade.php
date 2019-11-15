@@ -64,18 +64,8 @@
                           @endif
                         </td>
                         <td>
-                          @if($report->report_status == 0)
-                            <span class="btn btn-info btn-sm">Müştəridən cavab gözlənir</span>
-                          @elseif($report->report_status == 1)
-                            <span class="btn btn-warning btn-sm">Cavab gözləyir</span>
-                          @elseif($report->report_status == 2)
-                            <span class="btn btn-danger btn-sm">Mağaza İmtina</span>
-                          @elseif($report->report_status == 3)
-                            <span class="btn btn-success btn-sm">Mağaza cavablayıb</span>
-                          @elseif($report->report_status == 4)
-                            <span class="btn btn-success btn-sm">Avtoqaraj cavablayıb</span>
-                          @elseif($report->report_status == 5)
-                            <span class="btn btn-danger btn-sm">Avtoqaraj İmtina</span>
+                          @if($report->get_report_status)
+                            <span class="btn btn-{{$report->get_report_status->color}} btn-sm">{{$report->get_report_status->name}}</span>
                           @endif
                         </td>
                         <td>
@@ -125,19 +115,10 @@
               <h5 class="modal-title" id="more_label_{{$report->id}}">
                 Müraciət #{{$report->id}} -
 
-                @if($report->report_status == 0)
-                  <span class="btn btn-info btn-sm">Müştəridən cavab gözlənir</span>
-                @elseif($report->report_status == 1)
-                  <span class="btn btn-warning btn-sm">Cavab gözləyir</span>
-                @elseif($report->report_status == 2)
-                  <span class="btn btn-danger btn-sm">Mağaza İmtina</span>
-                @elseif($report->report_status == 3)
-                  <span class="btn btn-success btn-sm">Mağaza cavablayıb</span>
-                @elseif($report->report_status == 4)
-                  <span class="btn btn-success btn-sm">Avtoqaraj cavablayıb</span>
-                @elseif($report->report_status == 5)
-                  <span class="btn btn-danger btn-sm">Avtoqaraj İmtina</span>
+                @if($report->get_report_status)
+                  <span class="btn btn-{{$report->get_report_status->color}} btn-sm">{{$report->get_report_status->name}}</span>
                 @endif
+
               </h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>

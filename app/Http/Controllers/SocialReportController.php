@@ -17,7 +17,7 @@ class SocialReportController extends Controller
 
   /*
   Report Status
-  0 = Incomplete
+  8 = Incomplete
   1 = Pending
   2 = Partner Cancelled
   3 = Partner Replied
@@ -58,7 +58,7 @@ class SocialReportController extends Controller
 
     $reports = $_reports->paginate(10);
     $reports->appends(request()->query());
-    
+
     return view('app.social_reports.index',compact('reports'));
   }
 
@@ -83,7 +83,7 @@ class SocialReportController extends Controller
     ]);
 
     if(empty($request->client_contact)){
-      $report_status = 0;//Incomplete
+      $report_status = 8;//Incomplete
     }else{
       $report_status = 1; //Pending
     }
@@ -201,7 +201,6 @@ class SocialReportController extends Controller
     ]);
     return redirect()->back();
   }
-
 
 
 }

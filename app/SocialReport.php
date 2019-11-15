@@ -27,4 +27,18 @@ class SocialReport extends Model
     return $this->belongsTo('App\Shop','shop_id');
   }
 
+  public function get_report_status(){
+    return $this->belongsTo('App\SocialReportStatus','report_status');
+  }
+
+  public function get_report_replies(){
+    return $this->belongsTo('App\SocialReportReply','reply_description');
+  }
+
+  public function get_report_cancels(){
+    return $this->belongsTo('App\SocialReportCancel','cancel_description');
+  }
+
+
+
 }

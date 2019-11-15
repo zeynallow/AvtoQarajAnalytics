@@ -11,6 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $this->call(SocialReportStatus::class);
+        $this->call(SocialReportReply::class);
+        $this->call(SocialReportCancel::class);
     }
 }
