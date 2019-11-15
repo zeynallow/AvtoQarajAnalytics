@@ -37,16 +37,28 @@ class SocialReportController extends Controller
   * index
   */
   public function index(Request $request){
+
     $_reports = SocialReport::orderBy('status','asc');
     $_reports->orderBy('created_at','desc');
     $_reports->where('report_status','!=',6);
     $_reports->where('report_status','!=',7);
+
+    if($request->get('query')){
+      $s_query = $request->get('query');
+      $_reports->where(function($query) use ($s_query){
+        $query->where('client_contact','LIKE','%'.$s_query.'%');
+        $query->orWhere('client_name','LIKE','%'.$s_query.'%');
+      });
+    }
+
 
     if(Auth::user()->role_id == 2){
       $_reports->where('shop_id',Auth::user()->shop_id);
     }
 
     $reports = $_reports->paginate(10);
+    $reports->appends(request()->query());
+    
     return view('app.social_reports.index',compact('reports'));
   }
 

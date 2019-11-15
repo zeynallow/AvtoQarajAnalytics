@@ -9,8 +9,19 @@
       <div class="card">
         <div class="card-body">
 
-          @if($reports)
+          <form class="" action="" method="get">
             <div class="row">
+              <div class="col-md-10">
+                <input type="text" name="query" value="{{(request()->get('query')) ? request()->get('query') : ''}}" class="form-control" placeholder="Müştərinin adı və ya nömrəsini daxil edin">
+              </div>
+              <div class="col-md-2">
+                <button type="submit" class="btn btn-success form-control"><i class="fa fa-search"></i> Axtar</button>
+              </div>
+            </div>
+          </form>
+
+          @if($reports)
+            <div class="row mt-5">
               <div class="col-md-12 table-responsive">
                 <table class="table">
                   <thead>
@@ -87,6 +98,13 @@
                 {{$reports}}
               </div>
 
+            </div>
+
+          @else
+            <div class="col-md-12">
+              <div class="alert alert-warning">
+                Heç bir məlumat tapılmadı
+              </div>
             </div>
           @endif
 
