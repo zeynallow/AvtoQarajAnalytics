@@ -84,11 +84,11 @@
                           <button type="button" data-toggle="modal" data-target="#more_{{$report->id}}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></button>
 
                           @if($report->report_status == 1)
-                            <a href="{{route('social_reports.confirmRequest',['request_id'=>$report->id])}}" class="btn btn-success btn-sm check-confirm-alert"><i class="fa fa-check"></i></a>
-                            <a href="{{route('social_reports.cancelRequest',['request_id'=>$report->id])}}" class="btn btn-danger btn-sm confirm-alert"><i class="fa fa-times"></i></a>
+                            <a href="{{route('social_reports.confirmRequest',['request_id'=>$report->id,'desc'=>''])}}" class="btn btn-success btn-sm check-confirm-alert"><i class="fa fa-check"></i></a>
+                            <a href="{{route('social_reports.cancelRequest',['request_id'=>$report->id,'desc'=>''])}}" class="btn btn-danger btn-sm confirm-alert"><i class="fa fa-times"></i></a>
                           @elseif($report->report_status == 2 || $report->report_status == 5)
-                            <a href="{{route('social_reports.confirmRequest',['request_id'=>$report->id])}}" class="btn btn-success btn-sm check-confirm-alert"><i class="fa fa-check"></i></a>
-                            <a href="{{route('social_reports.softDeleteRequest',['request_id'=>$report->id])}}" class="btn btn-danger btn-sm delete-confirm-alert"><i class="fa fa-trash"></i></a>
+                            <a href="{{route('social_reports.confirmRequest',['request_id'=>$report->id,'desc'=>''])}}" class="btn btn-success btn-sm check-confirm-alert"><i class="fa fa-check"></i></a>
+                            <a href="{{route('social_reports.softDeleteRequest',['request_id'=>$report->id,'desc'=>''])}}" class="btn btn-danger btn-sm delete-confirm-alert"><i class="fa fa-trash"></i></a>
                           @endif
                         </td>
                       </tr>
@@ -131,6 +131,14 @@
                   <span class="btn btn-{{$report->get_report_status->color}} btn-sm">{{$report->get_report_status->name}}</span>
                 @endif
 
+                @if($report->get_report_replies)
+                  <span class="btn btn-{{$report->get_report_replies->color}} btn-sm">{{$report->get_report_replies->description}}</span>
+                @endif
+
+                @if($report->get_report_cancels)
+                  <span class="btn btn-{{$report->get_report_cancels->color}} btn-sm">{{$report->get_report_cancels->description}}</span>
+                @endif
+                
               </h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -216,11 +224,11 @@
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Bağla</button>
 
             @if($report->report_status == 1)
-              <a href="{{route('social_reports.confirmRequest',['request_id'=>$report->id])}}" class="btn btn-success check-confirm-alert"><i class="fa fa-check"></i> Cavablandı</a>
-              <a href="{{route('social_reports.cancelRequest',['request_id'=>$report->id])}}" class="btn btn-danger  confirm-alert"><i class="fa fa-times"></i> İmtina et</a>
+              <a href="{{route('social_reports.confirmRequest',['request_id'=>$report->id,'desc'=>''])}}" class="btn btn-success check-confirm-alert"><i class="fa fa-check"></i> Cavablandı</a>
+              <a href="{{route('social_reports.cancelRequest',['request_id'=>$report->id,'desc'=>''])}}" class="btn btn-danger  confirm-alert"><i class="fa fa-times"></i> İmtina et</a>
             @elseif($report->report_status == 2 || $report->report_status == 5)
-              <a href="{{route('social_reports.confirmRequest',['request_id'=>$report->id])}}" class="btn btn-success  check-confirm-alert"><i class="fa fa-check"></i> Cavablandı</a>
-              <a href="{{route('social_reports.softDeleteRequest',['request_id'=>$report->id])}}" class="btn btn-danger delete-confirm-alert"><i class="fa fa-trash"></i> Sil</a>
+              <a href="{{route('social_reports.confirmRequest',['request_id'=>$report->id,'desc'=>''])}}" class="btn btn-success  check-confirm-alert"><i class="fa fa-check"></i> Cavablandı</a>
+              <a href="{{route('social_reports.softDeleteRequest',['request_id'=>$report->id,'desc'=>''])}}" class="btn btn-danger delete-confirm-alert"><i class="fa fa-trash"></i> Sil</a>
             @endif
 
           </div>
@@ -242,9 +250,9 @@
     e.preventDefault();
     var href = $(this).attr('href');
 
-    bootbox.confirm({
+    bootbox.prompt({
       title: "İmtina etmək",
-      message: "Müraciətdən imtina etmək istəyirsiniz?",
+      message: "İmtina səbəbini seçin",
       buttons: {
         cancel: {
           label: '<i class="fa fa-times"></i> Xeyir'
@@ -253,9 +261,11 @@
           label: '<i class="fa fa-check"></i> Bəli'
         }
       },
+      inputType: 'select',
+      inputOptions: {!!$cancels->toJson(JSON_UNESCAPED_UNICODE)!!},
       callback: function (result) {
         if(result){
-          window.location = href;
+          window.location = href + '/'+ result;
         }
       }
     });
@@ -265,7 +275,7 @@
     e.preventDefault();
     var href = $(this).attr('href');
 
-    bootbox.confirm({
+    bootbox.prompt({
       title: "Silmək",
       message: "Müraciətdən silmək istəyirsiniz?",
       buttons: {
@@ -289,9 +299,9 @@
     e.preventDefault();
     var href = $(this).attr('href');
 
-    bootbox.confirm({
+    bootbox.prompt({
       title: "Təsdiq etmək",
-      message: "Müraciəti cavabladınız? ",
+      message: "Nəticəni seçin",
       buttons: {
         cancel: {
           label: '<i class="fa fa-times"></i> Xeyir'
@@ -300,9 +310,11 @@
           label: '<i class="fa fa-check"></i> Bəli'
         }
       },
+      inputType: 'select',
+      inputOptions: {!!$replies->toJson(JSON_UNESCAPED_UNICODE)!!},
       callback: function (result) {
         if(result){
-          window.location = href;
+          window.location = href + '/'+result;
         }
       }
     });

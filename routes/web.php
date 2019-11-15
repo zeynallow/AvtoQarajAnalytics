@@ -35,8 +35,9 @@ Route::group(['middleware' => ['auth','RolesAuth']], function () {
   Route::post('/social_reports/store', 'SocialReportController@store')->name('social_reports.store');
   Route::get('/social_reports/reports', 'SocialReportController@reports')->name('social_reports.reports');
 
-  Route::get('/social_reports/cancelRequest/{request_id}', 'SocialReportController@cancelRequest')->name('social_reports.cancelRequest');
-  Route::get('/social_reports/confirmRequest/{request_id}', 'SocialReportController@confirmRequest')->name('social_reports.confirmRequest');
+  Route::get('/social_reports/cancelRequest/{request_id}/{desc}', 'SocialReportController@cancelRequest')->name('social_reports.cancelRequest');
+  Route::get('/social_reports/confirmRequest/{request_id}/{desc}', 'SocialReportController@confirmRequest')->name('social_reports.confirmRequest');
+
   Route::get('/social_reports/softDeleteRequest/{request_id}', 'SocialReportController@softDeleteRequest')->name('social_reports.softDeleteRequest');
   Route::post('/social_reports/addClientContact/{request_id}', 'SocialReportController@addClientContact')->name('social_reports.addClientContact');
   Route::get('/social_reports/getProductInfo/{product_id}', 'SocialReportController@getProductInfo')->name('social_reports.getProductInfo');

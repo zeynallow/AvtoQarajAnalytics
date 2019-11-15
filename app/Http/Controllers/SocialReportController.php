@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Notification;
 
 use App\Product;
 use App\SocialReport;
+use App\SocialReportReply;
+use App\SocialReportCancel;
 use App\Shop;
 use App\User;
 use Auth;
@@ -51,7 +53,7 @@ class SocialReportController extends Controller
         $query->orWhere('client_name','LIKE','%'.$s_query.'%');
       });
     }
-    
+
     if($request->get('shop_id')){
       $_reports->where('shop_id',$request->get('shop_id'));
     }
@@ -66,7 +68,10 @@ class SocialReportController extends Controller
 
     $shops = Shop::all();
 
-    return view('app.social_reports.index',compact('shops','reports'));
+    $cancels = SocialReportCancel::select('id as value','description as text')->get();
+    $replies = SocialReportReply::select('id as value','description as text')->get();
+
+    return view('app.social_reports.index',compact('shops','reports','cancels','replies'));
   }
 
   /*
@@ -170,13 +175,14 @@ class SocialReportController extends Controller
   /*
   * cancelRequest
   */
-  public function cancelRequest($request_id){
+  public function cancelRequest($request_id,$description_id){
 
     $user_role = Auth::user()->role_id;
 
     $reports = SocialReport::where('id',$request_id)
     ->update([
       'report_status'=>($user_role == 2) ? 2 : 5,
+      'cancel_description'=>$description_id,
       'status'=>1
     ]);
 
@@ -199,11 +205,12 @@ class SocialReportController extends Controller
   /*
   * confirmRequest
   */
-  public function confirmRequest($request_id){
+  public function confirmRequest($request_id,$description_id){
     $user_role = Auth::user()->role_id;
     $reports = SocialReport::where('id',$request_id)
     ->update([
       'report_status'=>($user_role == 2) ? 3 : 4,
+      'reply_description'=>$description_id,
       'status'=>1
     ]);
     return redirect()->back();
