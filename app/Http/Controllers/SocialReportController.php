@@ -43,12 +43,17 @@ class SocialReportController extends Controller
     $_reports->where('report_status','!=',6);
     $_reports->where('report_status','!=',7);
 
+    //filter
     if($request->get('query')){
       $s_query = $request->get('query');
       $_reports->where(function($query) use ($s_query){
         $query->where('client_contact','LIKE','%'.$s_query.'%');
         $query->orWhere('client_name','LIKE','%'.$s_query.'%');
       });
+    }
+    
+    if($request->get('shop_id')){
+      $_reports->where('shop_id',$request->get('shop_id'));
     }
 
 
@@ -59,7 +64,9 @@ class SocialReportController extends Controller
     $reports = $_reports->paginate(10);
     $reports->appends(request()->query());
 
-    return view('app.social_reports.index',compact('reports'));
+    $shops = Shop::all();
+
+    return view('app.social_reports.index',compact('shops','reports'));
   }
 
   /*

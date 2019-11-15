@@ -11,7 +11,19 @@
 
           <form class="" action="" method="get">
             <div class="row">
-              <div class="col-md-10">
+              <div class="col-md-4">
+                <select class="form-control" name="shop_id">
+                  <option value="">Bütün mağazalar</option>
+                  @foreach ($shops as $key => $shop)
+                    @if(request()->get('shop_id') == $shop->id)
+                      <option value="{{$shop->id}}" selected>{{$shop->name}}</option>
+                    @else
+                      <option value="{{$shop->id}}">{{$shop->name}}</option>
+                    @endif
+                  @endforeach
+                </select>
+              </div>
+              <div class="col-md-6">
                 <input type="text" name="query" value="{{(request()->get('query')) ? request()->get('query') : ''}}" class="form-control" placeholder="Müştərinin adı və ya nömrəsini daxil edin">
               </div>
               <div class="col-md-2">
