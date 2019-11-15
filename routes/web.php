@@ -39,7 +39,7 @@ Route::group(['middleware' => ['auth','RolesAuth']], function () {
   Route::get('/social_reports/confirmRequest/{request_id}/{desc}', 'SocialReportController@confirmRequest')->name('social_reports.confirmRequest');
 
   Route::get('/social_reports/softDeleteRequest/{request_id}', 'SocialReportController@softDeleteRequest')->name('social_reports.softDeleteRequest');
-  Route::post('/social_reports/addClientContact/{request_id}', 'SocialReportController@addClientContact')->name('social_reports.addClientContact');
+  Route::post('/social_reports/update/{request_id}', 'SocialReportController@update')->name('social_reports.update');
   Route::get('/social_reports/getProductInfo/{product_id}', 'SocialReportController@getProductInfo')->name('social_reports.getProductInfo');
 
 

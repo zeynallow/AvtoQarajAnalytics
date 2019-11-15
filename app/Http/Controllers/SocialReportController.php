@@ -149,9 +149,9 @@ class SocialReportController extends Controller
   }
 
   /*
-  * addClientContact
+  * update
   */
-  public function addClientContact(Request $request,$request_id){
+  public function update(Request $request,$request_id){
 
     $user_role = Auth::user()->role_id;
 
@@ -165,7 +165,11 @@ class SocialReportController extends Controller
 
     $reports = SocialReport::where('id',$request_id)
     ->update([
+      'client_name'=>$request->client_name,
       'client_contact'=>$request->client_contact,
+      'client_auto_car'=>$request->client_auto_car,
+      'client_auto_year'=>$request->client_auto_year,
+      'client_auto_vin'=>$request->client_auto_vin,
       'report_status'=>1, //pending
       'status'=>1
     ]);

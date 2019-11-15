@@ -138,105 +138,111 @@
                 @if($report->get_report_cancels)
                   <span class="btn btn-{{$report->get_report_cancels->color}} btn-sm">{{$report->get_report_cancels->description}}</span>
                 @endif
-                
+
               </h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-              <div class="row mt-3">
-                <div class="col-md-6">Əlavə olunma tarixi</div>
-                <div class="col-md-6">{{$report->created_at}} ({{$report->created_at->diffForHumans()}})</div>
-              </div>
-              <div class="row mt-3">
-                <div class="col-md-6">Yenilənmə tarixi</div>
-                <div class="col-md-6">{{$report->updated_at}} ({{$report->updated_at->diffForHumans()}})</div>
-              </div>
-              <div class="row mt-3">
-                <div class="col-md-6">Sosial şəbəkə</div>
-                <div class="col-md-6">
-                  @if($report->network_type == 1)
-                    Facebook
-                  @elseif($report->network_type == 2)
-                    Instagram
-                  @elseif($report->network_type == 3)
-                    Whatsapp
+              @if(auth()->user()->role_id != 2)
+                @if($report->get_report_status && $report->get_report_status->id == 1 || $report->get_report_status->id == 8)
+                  <form class="" action="{{route('social_reports.update',$report->id)}}" method="post">
+                    <div class="row mt-3">
+                      <div class="col-md-12 text-right"><button type="button" onclick="editReport({{$report->id}});" class="btn btn-primary"><i class="fa fa-edit"></i></button></div>
+                    </div>
                   @endif
-                </div>
-              </div>
-              <div class="row mt-3">
-                <div class="col-md-6">Mağaza</div>
-                <div class="col-md-6">{{($report->getShop)? $report->getShop->name : ''}}</div>
-              </div>
-              <div class="row mt-3">
-                <div class="col-md-6">Məhsul</div>
-                <div class="col-md-6">
-                  @if($report->product_id)
-                    <a target="_blank" href="{{env('PRIMARY_WEB_URL')}}/product/{{$report->product_id}}">#{{$report->product_id}} - {{$report->product_name}}</a>
-                  @else
-                    {{$report->product_name}}
-                  @endif
-                </div>
-              </div>
-              <div class="row mt-3">
-                <div class="col-md-6">Müştərinin adı</div>
-                <div class="col-md-6">{{$report->client_name}}</div>
-              </div>
-              <div class="row mt-3">
-                <div class="col-md-6">Əlaqə nömrəsi</div>
-                <div class="col-md-6">
-                  @if(auth()->user()->role_id != 2)
-                  @empty($report->client_contact)
-                    <form action="{{route('social_reports.addClientContact',$report->id)}}" method="post">
-                      @csrf
-                      <div class="input-group">
-                        <input type="text" class="form-control" name="client_contact" value="">
-                        <div class="input-group-append">
-                          <button type="submit" class="input-group-text"><i class="fa fa-plus"></i></button>
-                        </div>
-                      </div>
-                    </form>
-                  @endempty
                 @endif
-                {{$report->client_contact}}
+
+                <div class="row mt-3">
+                  <div class="col-md-6">Əlavə olunma tarixi</div>
+                  <div class="col-md-6">{{$report->created_at}} ({{$report->created_at->diffForHumans()}})</div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-md-6">Yenilənmə tarixi</div>
+                  <div class="col-md-6">{{$report->updated_at}} ({{$report->updated_at->diffForHumans()}})</div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-md-6">Sosial şəbəkə</div>
+                  <div class="col-md-6">
+                    @if($report->network_type == 1)
+                      Facebook
+                    @elseif($report->network_type == 2)
+                      Instagram
+                    @elseif($report->network_type == 3)
+                      Whatsapp
+                    @endif
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-md-6">Mağaza</div>
+                  <div class="col-md-6">{{($report->getShop)? $report->getShop->name : ''}}</div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-md-6">Məhsul</div>
+                  <div class="col-md-6">
+                    @if($report->product_id)
+                      <a target="_blank" href="{{env('PRIMARY_WEB_URL')}}/product/{{$report->product_id}}">#{{$report->product_id}} - {{$report->product_name}}</a>
+                    @else
+                      {{$report->product_name}}
+                    @endif
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-md-6">Müştərinin adı</div>
+                  <div class="col-md-6" id="{{$report->id}}_view_client_name">{{$report->client_name}}</div>
+                  <div class="col-md-6" id="{{$report->id}}_edit_client_name" style="display:none;"><input type="text" class="form-control"  name="client_name" value="{{$report->client_name}}"/></div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-md-6">Əlaqə nömrəsi</div>
+                  <div class="col-md-6" id="{{$report->id}}_view_client_contact">{{$report->client_contact}}</div>
+                  <div class="col-md-6" id="{{$report->id}}_edit_client_contact" style="display:none;"><input type="text" class="form-control" name="client_contact" value="{{$report->client_contact}}"/></div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-md-6">Şərhi</div>
+                  <div class="col-md-6">{{$report->client_comment}}</div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-md-6">Avtomobil</div>
+                  <div class="col-md-6" id="{{$report->id}}_view_client_auto_car">{{$report->client_auto_car}}</div>
+                  <div class="col-md-6" id="{{$report->id}}_edit_client_auto_car" style="display:none;"><input type="text" class="form-control" name="client_auto_car" value="{{$report->client_auto_car}}"/></div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-md-6">Avtomobilin buraxılış ili</div>
+                  <div class="col-md-6" id="{{$report->id}}_view_client_auto_year">{{$report->client_auto_year}}</div>
+                  <div class="col-md-6" id="{{$report->id}}_edit_client_auto_year" style="display:none;"><input type="text" class="form-control" name="client_auto_year" value="{{$report->client_auto_year}}"/></div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-md-6">Avtomobilin Vin kodu (Ban)</div>
+                  <div class="col-md-6" id="{{$report->id}}_view_client_auto_vin">{{$report->client_auto_vin}}</div>
+                  <div class="col-md-6" id="{{$report->id}}_edit_client_auto_vin" style="display:none;"><input type="text" class="form-control" name="client_auto_vin" value="{{$report->client_auto_vin}}"/></div>
+                </div>
+
               </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-md-6">Şərhi</div>
-              <div class="col-md-6">{{$report->client_comment}}</div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-md-6">Avtomobil</div>
-              <div class="col-md-6">{{$report->client_auto_car}}</div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-md-6">Avtomobilin buraxılış ili</div>
-              <div class="col-md-6">{{$report->client_auto_year}}</div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-md-6">Avtomobilin Vin kodu (Ban)</div>
-              <div class="col-md-6">{{$report->client_auto_vin}}</div>
-            </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Bağla</button>
+                @if(auth()->user()->role_id != 2)
+                  @if($report->get_report_status && $report->get_report_status->id == 1 || $report->get_report_status->id == 8)
+                    <button style="display:none" id="{{$report->id}}_save" type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Yadda saxla</button>
+                    @csrf
+                  </form>
+                @endif
+              @endif
 
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Bağla</button>
+              @if($report->report_status == 1)
+                <a href="{{route('social_reports.confirmRequest',['request_id'=>$report->id,'desc'=>''])}}" class="btn btn-success check-confirm-alert"><i class="fa fa-check"></i> Cavablandı</a>
+                <a href="{{route('social_reports.cancelRequest',['request_id'=>$report->id,'desc'=>''])}}" class="btn btn-danger  confirm-alert"><i class="fa fa-times"></i> İmtina et</a>
+              @elseif($report->report_status == 2 || $report->report_status == 5)
+                <a href="{{route('social_reports.confirmRequest',['request_id'=>$report->id,'desc'=>''])}}" class="btn btn-success  check-confirm-alert"><i class="fa fa-check"></i> Cavablandı</a>
+                <a href="{{route('social_reports.softDeleteRequest',['request_id'=>$report->id,'desc'=>''])}}" class="btn btn-danger delete-confirm-alert"><i class="fa fa-trash"></i> Sil</a>
+              @endif
 
-            @if($report->report_status == 1)
-              <a href="{{route('social_reports.confirmRequest',['request_id'=>$report->id,'desc'=>''])}}" class="btn btn-success check-confirm-alert"><i class="fa fa-check"></i> Cavablandı</a>
-              <a href="{{route('social_reports.cancelRequest',['request_id'=>$report->id,'desc'=>''])}}" class="btn btn-danger  confirm-alert"><i class="fa fa-times"></i> İmtina et</a>
-            @elseif($report->report_status == 2 || $report->report_status == 5)
-              <a href="{{route('social_reports.confirmRequest',['request_id'=>$report->id,'desc'=>''])}}" class="btn btn-success  check-confirm-alert"><i class="fa fa-check"></i> Cavablandı</a>
-              <a href="{{route('social_reports.softDeleteRequest',['request_id'=>$report->id,'desc'=>''])}}" class="btn btn-danger delete-confirm-alert"><i class="fa fa-trash"></i> Sil</a>
-            @endif
-
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  @endforeach
-@endif
+    @endforeach
+  @endif
 
 
 @endsection
@@ -245,6 +251,24 @@
   <script type="text/javascript" src="/js/bootbox.min.js"></script>
   <script type="text/javascript">
 
+  function editReport(report_id){
+    $("#" + report_id +'_view_client_name').hide();
+    $("#" + report_id +'_view_client_contact').hide();
+    $("#" + report_id +'_view_client_auto_car').hide();
+    $("#" + report_id +'_view_client_auto_year').hide();
+    $("#" + report_id +'_view_client_auto_vin').hide();
+
+    $("#" + report_id+'_edit_client_name').show();
+    $("#" + report_id+'_edit_client_contact').show();
+    $("#" + report_id+'_edit_client_auto_car').show();
+    $("#" + report_id+'_edit_client_auto_year').show();
+    $("#" + report_id+'_edit_client_auto_vin').show();
+    $("#" + report_id+'_save').show();
+  }
+
+  function saveReport(report_id){
+
+  }
 
   $(document).on("click", ".confirm-alert", function(e) {
     e.preventDefault();
