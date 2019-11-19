@@ -21,7 +21,7 @@
         }else{
           $("#product_id").removeClass('is-invalid').addClass('is-valid');
 
-          $("#shop_id").val(response.shop_id);
+          $("#shop_id").val(response.shop_id).trigger('change');;
           $("#product_name").val(response.product_name);
 
         }
