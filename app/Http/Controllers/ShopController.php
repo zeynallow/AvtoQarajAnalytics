@@ -75,7 +75,7 @@ class ShopController extends Controller
       $shops = Shop::all();
 
       if($request->get('export') && $request->get('export') == 'excel'){
-        return (new ProductTrackExport($result->toArray()))->download('shops_export.xlsx');
+        return (new ProductTrackExport($result->toArray()))->download('shops_export_'.$start_date-$end_date.'.xlsx');
       }else{
         return view('app.shops.index',compact('result','shops'));
       }

@@ -56,7 +56,7 @@ class CategoryController extends Controller
 
 
       if($request->get('export') && $request->get('export') == 'excel'){
-        return (new CategoryTrackExport($result->toArray()))->download('categories_export.xlsx');
+        return (new CategoryTrackExport($result->toArray()))->download('categories_export_'.$start_date-$end_date.'.xlsx');
       }else{
         return view('app.categories.index',compact('result'));
       }

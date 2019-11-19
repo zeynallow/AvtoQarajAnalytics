@@ -15,6 +15,7 @@
 
                 <div class="row">
                   <div class="col-md-4">
+
                     <div class="form-group">
                       <label>Tarixlər</label>
                       <div class="input-group">
@@ -28,70 +29,150 @@
                         class="form-control daterange-cus">
                       </div>
                     </div>
+
                   </div>
 
-                  <div class="col-md-2">
-                    <label>&nbsp; </label>
-                    <button type="submit" name="submit" class="btn btn-primary form-control">
-                      Davam et
-                    </button>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="shop_id">Mağaza</label>
+                      <select class="form-control" id="shop_id" name="shop_id">
+                        @if(auth()->user()->role_id == 1)
+                          <option value="all">Bütün mağazalar</option>
+                          @foreach ($shops as $key => $shop)
+                            <option value="{{$shop->id}}"
+                              @if(request()->get('shop_id') && request()->get('shop_id') == $shop->id)
+                                selected
+                              @endif>
+                              {{$shop->name}}</option>
+                            @endforeach
+                          @elseif(auth()->user()->role_id == 2)
+                            @if(auth()->user()->shop)
+                              <option value="{{auth()->user()->shop->id}}">{{auth()->user()->shop->name}}</option>
+                            @endif
+                          @endif
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-md-2">
+                      <label>&nbsp; </label>
+                      <button type="submit" name="submit" class="btn btn-primary form-control">
+                        Davam et
+                      </button>
+                    </div>
                   </div>
-
-                </div>
-              </form>
-            </div>
-          </div>
-          <br/>
-
-
-
-            <div class="row">
-              <div class="col-md-12 table-responsive">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th>Hesabat İD</th>
-                      <th>Tarix</th>
-                      <th>Məhsul</th>
-                      <th>Mağaza</th>
-                      <th>Status</th>
-                      <th></th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-
-                    <tr>
-                      <td>352523</td>
-                      <td>08-11-2019 13:33</td>
-                      <td><a target="_blank" href="#">#38412 - Güzgü şüşəsi sol Audi</a></td>
-                      <td>Volkswagen Baki Mərkəzi</td>
-                      <td><span class="btn btn-warning btn-sm">Cavab gözləyir</span></td>
-                      <td><button type="button" class="btn btn-success btn-sm"><i class="fa fa-check"></i></button></td>
-                      <td><button type="button" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></button></td>
-                    </tr>
-
-                  </tbody>
-                </table>
+                </form>
               </div>
-
             </div>
+            <br/>
 
+
+
+            @if (\Session::has('error'))
+              <div class="alert alert-danger">
+                {!! \Session::get('error') !!}
+              </div>
+              <br/>
+            @endif
+
+            @if (\Session::has('success'))
+              <div class="alert alert-success">
+                {!! \Session::get('success') !!}
+              </div>
+              <br/>
+            @endif
+
+            @if(!$result)
+              <div class="alert alert-info">
+                Sorğunu daxil edin
+              </div>
+            @elseif($result && count($result))
+              <div class="row">
+                <div class="col-md-12 text-right">
+                  <a class="btn btn-success" href="{{ request()->fullUrl() . '&export=excel' }}"><i class="fa fa-file-excel"></i> Export</a>
+                </div>
+              </div>
+              <br/>
+              <div class="row">
+                <div class="col-md-12 table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Sosial şəbəkə</th>
+                        <th>Mağaza</th>
+                        <th>Müştəridən cavab göz.</th>
+                        <th>Cavab gözləyir</th>
+                        <th>Avtoqaraj cavablayıb</th>
+                        <th>Mağaza cavablayıb</th>
+                        <th>Avtoqaraj imtina</th>
+                        <th>Mağaza imtina</th>
+                        <th>Cəmi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @if(count($result) > 0)
+                        @foreach ($result as $key => $report)
+                          <tr>
+                            <td>
+                              @if($report->network_type == 1)
+                                Facebook
+                              @elseif($report->network_type == 2)
+                                Instagram
+                              @elseif($report->network_type == 3)
+                                Whatsapp
+                              @endif
+                            </td>
+                            <td>{{\App\Shop::getShopName($report->shop_id)}}</td>
+                            <td>{{$report->client_pending}}</td>
+                            <td>{{$report->pending}}</td>
+                            <td>{{$report->garage_replied}}</td>
+                            <td>{{$report->shop_replied}}</td>
+                            <td>{{$report->garage_cancelled}}</td>
+                            <td>{{$report->shop_cancel}}</td>
+                            <td>
+                              {{
+                                $report->client_pending+
+                                $report->pending+
+                                $report->garage_replied+
+                                $report->shop_replied+
+                                $report->garage_cancelled+
+                                $report->shop_cancel
+                              }}
+                            </td>
+                          </tr>
+                        @endforeach
+                      @endif
+
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-12">
+                  {{$result}}
+                </div>
+              </div>
+            @else
+              <div class="alert alert-danger">
+                Sorğunun nəticəsi yoxdur
+              </div>
+            @endif
+
+
+
+          </div>
         </div>
       </div>
-    </div>
 
-  </section>
-@endsection
+    </section>
+  @endsection
 
-@push('javascript')
-  <script type="text/javascript">
+  @push('javascript')
+    <script type="text/javascript">
 
-  $('.daterange-cus').daterangepicker({
-    locale: {format: 'YYYY-MM-DD'},
-    drops: 'down',
-    opens: 'right'
-  });
+    $('.daterange-cus').daterangepicker({
+      locale: {format: 'YYYY-MM-DD'},
+      drops: 'down',
+      opens: 'right'
+    });
 
-  </script>
-@endpush
+    </script>
+  @endpush

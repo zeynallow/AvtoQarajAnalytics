@@ -63,7 +63,7 @@ class CarSearchController extends Controller
           $_result->whereIn('car_make_id',$user_shop_car_makes);
 
         }
-        
+
         $_result->orderBy('sum_click_count','desc');
         $_result->groupBy('car_type_id','car_make_id','car_model_id','car_generation_id');
 
@@ -77,7 +77,7 @@ class CarSearchController extends Controller
 
 
       if($request->get('export') && $request->get('export') == 'excel'){
-        return (new CarSearchTrackExport($result->toArray()))->download('car_search_export.xlsx');
+        return (new CarSearchTrackExport($result->toArray()))->download('car_search_export_'.$start_date-$end_date.'.xlsx');
       }else{
         return view('app.car_searches.index',compact('result'));
       }
