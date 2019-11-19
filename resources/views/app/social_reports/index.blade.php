@@ -12,6 +12,22 @@
           <form class="" action="" method="get">
             <div class="row">
               <div class="col-md-4">
+
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <i class="fas fa-calendar"></i>
+                      </div>
+                    </div>
+                    <input type="text" name="date_range"
+                    value="{{(request()->get('date_range')) ? request()->get('date_range') : ''}}"
+                    class="form-control daterange-cus">
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-md-3">
                 <select class="select2 form-control" name="shop_id">
                   <option value="">Bütün mağazalar</option>
                   @foreach ($shops as $key => $shop)
@@ -23,7 +39,7 @@
                   @endforeach
                 </select>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-3">
                 <input type="text" name="query" value="{{(request()->get('query')) ? request()->get('query') : ''}}" class="form-control" placeholder="Müştərinin adı və ya nömrəsini daxil edin">
               </div>
               <div class="col-md-2">
@@ -344,6 +360,11 @@
     });
   });
 
+  $('.daterange-cus').daterangepicker({
+    locale: {format: 'YYYY-MM-DD'},
+    drops: 'down',
+    opens: 'right'
+  });
 
   </script>
 @endpush
