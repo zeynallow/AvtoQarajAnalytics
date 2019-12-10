@@ -138,7 +138,7 @@ class SocialReportController extends Controller
 
     if($store){
       $notify_users = User::where('shop_id',$request->shop_id)->get();
-      Notification::send($notify_users, new NewSocialRequest($store));
+      // Notification::send($notify_users, new NewSocialRequest($store));
       return redirect()->back()->with('success','Müraciət əlavə olundu');
     }else{
       return redirect()->back()->with('error','Səhv baş verdi');
