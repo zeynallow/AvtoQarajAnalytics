@@ -121,38 +121,44 @@
 
             </div>
             <br/>
-
             <div class="row">
-              <div class="col-md-3">
+              <div class="col-md-4">
+                <label for="client_name">İstifadəçi</label>
+                <input type="text" class="form-control" name="username" id="username" value="{{ old('username') }}">
+              </div>
+              <div class="col-md-4">
                 <label for="client_name">Müştərinin adı</label>
                 <input type="text" class="form-control" name="client_name" id="client_name" value="{{ old('client_name') }}">
               </div>
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <label for="client_contact">Müştərinin əlaqə nömrəsi</label>
                 <input type="text" class="form-control" name="client_contact" id="client_contact" value="{{ old('client_contact') }}">
-              </div>
-
-              <div class="col-md-3">
-                <label for="client_auto_car">Avtomobil</label>
-                <input type="text" class="form-control" name="client_auto_car" id="client_auto_car" value="{{ old('client_auto_car') }}">
-              </div>
-              <div class="col-md-3">
-                <label for="client_auto_year">Avtomobilinin ili</label>
-                <input type="text" class="form-control" name="client_auto_year" id="client_auto_year" value="{{ old('client_auto_year') }}">
               </div>
             </div>
             <br/>
             <div class="row">
-              <div class="col-md-3">
+              <div class="col-md-4">
+                <label for="client_auto_car">Avtomobil</label>
+                <input type="text" class="form-control" name="client_auto_car" id="client_auto_car" value="{{ old('client_auto_car') }}">
+              </div>
+              <div class="col-md-4">
+                <label for="client_auto_year">Avtomobilinin ili</label>
+                <input type="text" class="form-control" name="client_auto_year" id="client_auto_year" value="{{ old('client_auto_year') }}">
+              </div>
+              <div class="col-md-4">
                 <label for="client_auto_vin">Avtomobilin ban nömrəsi</label>
                 <input type="text" class="form-control" name="client_auto_vin" id="client_auto_vin" value="{{ old('client_auto_vin') }}">
               </div>
-              <div class="col-md-9">
+            </div>
+            <br/>
+            <div class="row">
+              <div class="col-md-12">
                 <label for="client_comment">Müştərinin şərhi</label>
                 <input type="text" class="form-control" name="client_comment" id="client_comment" value="{{ old('client_comment') }}">
               </div>
             </div>
             <br/>
+
             <div class="row">
               <div class="col-md-12">
                 <button type="submit" class="btn btn-success form-control">Yarat</button>

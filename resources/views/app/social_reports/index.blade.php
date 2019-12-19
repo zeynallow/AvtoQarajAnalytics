@@ -206,7 +206,21 @@
                 </div>
                 <div class="row mt-3">
                   <div class="col-md-6">Müştərinin adı</div>
-                  <div class="col-md-6" id="{{$report->id}}_view_client_name">{{$report->client_name}}</div>
+                  <div class="col-md-6" id="{{$report->id}}_view_client_name">
+                    @if($report->username)
+                      @php
+                      $social_link = NULL;
+                      if($report->network_type == 1){
+                        $social_link = $report->username;
+                      }elseif($report->network_type == 2){
+                        $social_link = 'https://instagram.com/'.$report->username;
+                      }
+                      @endphp
+                      <a href="{{$social_link}}">{{$report->client_name}}</a>
+                    @else
+                      {{$report->client_name}}
+                    @endif
+                  </div>
                   <div class="col-md-6" id="{{$report->id}}_edit_client_name" style="display:none;"><input type="text" class="form-control"  name="client_name" value="{{$report->client_name}}"/></div>
                 </div>
                 <div class="row mt-3">
@@ -233,8 +247,8 @@
                   <div class="col-md-6" id="{{$report->id}}_view_client_auto_vin">{{$report->client_auto_vin}}</div>
                   <div class="col-md-6" id="{{$report->id}}_edit_client_auto_vin" style="display:none;"><input type="text" class="form-control" name="client_auto_vin" value="{{$report->client_auto_vin}}"/></div>
                 </div>
-
               </div>
+
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Bağla</button>
                 @if(auth()->user()->role_id != 2)

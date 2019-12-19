@@ -57,7 +57,7 @@ class RouteTrackController extends Controller
 
 
       if($request->get('export') && $request->get('export') == 'excel'){
-        return (new RouteTrackExport($result->toArray()))->download('route_tracks_export_'.$start_date-$end_date.'.xlsx');
+        return (new RouteTrackExport($result->toArray()))->download('route_tracks_export_'.$start_date.'-'.$end_date.'.xlsx');
       }else{
         return view('app.route_tracks.index',compact('result'));
       }

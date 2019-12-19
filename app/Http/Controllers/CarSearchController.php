@@ -77,7 +77,7 @@ class CarSearchController extends Controller
 
 
       if($request->get('export') && $request->get('export') == 'excel'){
-        return (new CarSearchTrackExport($result->toArray()))->download('car_search_export_'.$start_date-$end_date.'.xlsx');
+        return (new CarSearchTrackExport($result->toArray()))->download('car_search_export_'.$start_date.'-'.$end_date.'.xlsx');
       }else{
         return view('app.car_searches.index',compact('result'));
       }

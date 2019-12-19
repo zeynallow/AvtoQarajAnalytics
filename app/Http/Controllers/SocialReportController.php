@@ -133,6 +133,7 @@ class SocialReportController extends Controller
       'client_auto_vin'=>$request->client_auto_vin,
       'partner_comment'=>$request->partner_comment,
       'report_status'=>$report_status,
+      'username'=>$request->username,
       'status'=>0
     ]);
 

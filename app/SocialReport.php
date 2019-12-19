@@ -20,7 +20,8 @@ class SocialReport extends Model
     'client_auto_vin',
     'partner_comment',
     'report_status',
-    'status'
+    'status',
+    'username'
   ];
 
   public function getShop(){

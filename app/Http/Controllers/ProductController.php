@@ -87,7 +87,8 @@ class ProductController extends Controller
       $shops = Shop::all();
 
       if($request->get('export') && $request->get('export') == 'excel'){
-        return (new ProductTrackExport($result->toArray()))->download('products_export_'.$start_date-$end_date.'.xlsx');
+
+        return (new ProductTrackExport($result->toArray()))->download('products_export_'.$start_date.'-'.$end_date.'.xlsx');
       }else{
         return view('app.products.index',compact('result','product_sources','shops'));
       }
