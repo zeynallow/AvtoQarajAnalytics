@@ -216,7 +216,7 @@
                         $social_link = 'https://instagram.com/'.$report->username;
                       }
                       @endphp
-                      <a href="{{$social_link}}">{{$report->client_name}}</a>
+                      <a target="_blank" href="{{$social_link}}">{{$report->client_name}}</a>
                     @else
                       {{$report->client_name}}
                     @endif
