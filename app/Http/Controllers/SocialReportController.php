@@ -108,17 +108,17 @@ class SocialReportController extends Controller
   public function store(Request $request){
 
     $request->validate([
-      'shop_id'=>'required'
+      'shop_id'=>'required',
     ],
     [
       'shop_id.required'=>'Mağaza seçilməyib'
     ]);
 
-    if(empty($request->client_contact)){
-      $report_status = 8;//Incomplete
-    }else{
-      $report_status = 1; //Pending
-    }
+    // if(empty($request->client_contact)){
+    //   $report_status = 8;//Incomplete
+    // }else{
+    //   $report_status = 1; //Pending
+    // }
 
     $store = SocialReport::create([
       'network_type'=>$request->network_type,

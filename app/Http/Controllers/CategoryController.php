@@ -43,7 +43,30 @@ class CategoryController extends Controller
         ->whereBetween('date', [$start_date, $end_date]);
 
 
-        $_result->orderBy('sum_click_count','desc');
+
+        $order_url = '/categories?'.http_build_query(request()->except('orderby')).'&orderby=';
+        $order_url_sum_click_count = $order_url . 'sum_click_count_asc';
+        $order_url_sum_click_count_unique = $order_url . 'sum_click_count_unique_desc';
+
+        if(request()->get('orderby')){
+          if(request()->get('orderby') == 'sum_click_count_asc'){
+            $_result->orderBy('sum_click_count','asc');
+            $order_url_sum_click_count = $order_url . 'sum_click_count_desc';
+          }elseif(request()->get('orderby') == 'sum_click_count_desc'){
+            $_result->orderBy('sum_click_count','desc');
+            $order_url_sum_click_count = $order_url . 'sum_click_count_asc';
+          }elseif(request()->get('orderby') == 'sum_click_count_unique_asc'){
+            $_result->orderBy('sum_click_count_unique','asc');
+            $order_url_sum_click_count_unique = $order_url . 'sum_click_count_unique_desc';
+          }elseif(request()->get('orderby') == 'sum_click_count_unique_desc'){
+            $_result->orderBy('sum_click_count_unique','desc');
+            $order_url_sum_click_count_unique = $order_url . 'sum_click_count_unique_asc';
+          }else{
+            $_result->orderBy('sum_click_count','desc');
+          }
+        }
+
+
         $_result->groupBy('category_id');
 
         if($request->get('export') && $request->get('export') == 'excel'){
@@ -58,7 +81,7 @@ class CategoryController extends Controller
       if($request->get('export') && $request->get('export') == 'excel'){
         return (new CategoryTrackExport($result->toArray()))->download('categories_export_'.$start_date.'-'.$end_date.'.xlsx');
       }else{
-        return view('app.categories.index',compact('result'));
+        return view('app.categories.index',compact('result','order_url_sum_click_count','order_url_sum_click_count_unique'));
       }
 
     }

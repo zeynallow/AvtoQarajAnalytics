@@ -75,8 +75,9 @@
                     <tr>
                       <th>Kateqoriya İD</th>
                       <th>Kateqoriyanın adı</th>
-                      <th>Baxış sayı</th>
-                      <th>Baxış sayı (Unikal)</th>
+                      <th><a class="order" href="{{$order_url_sum_click_count}}">Baxış sayı <i class="fa fa-arrows-alt-v"></i></a></th>
+                      <th><a class="order" href="{{$order_url_sum_click_count_unique}}">Baxış sayı (Unikal) <i class="fa fa-arrows-alt-v"></i></a></th>
+
                     </tr>
                   </thead>
                   <tbody>
