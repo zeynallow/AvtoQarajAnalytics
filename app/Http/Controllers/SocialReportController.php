@@ -41,7 +41,7 @@ class SocialReportController extends Controller
   * index
   */
   public function index(Request $request){
-
+    $user = Auth::user();
     $_reports = SocialReport::orderBy('status','asc');
     $_reports->orderBy('created_at','desc');
     $_reports->where('report_status','!=',6);
@@ -79,7 +79,8 @@ class SocialReportController extends Controller
     }
 
 
-    if(Auth::user()->role_id == 2){
+
+    if($user->role_id == 2){
       $_reports->where('shop_id',Auth::user()->shop_id);
     }
 
@@ -139,7 +140,14 @@ class SocialReportController extends Controller
 
     if($store){
       $notify_users = User::where('shop_id',$request->shop_id)->get();
-      // Notification::send($notify_users, new NewSocialRequest($store));
+
+      if($notify_users && count($notify_users)){
+        $detectTempEmail = explode("@avtoqaraj.az",$notify_users[0]->email);
+        if(count($detectTempEmail) != 2){
+          Notification::send($notify_users, new NewSocialRequest($store));
+        }
+      }
+
       return redirect()->back()->with('success','Müraciət əlavə olundu');
     }else{
       return redirect()->back()->with('error','Səhv baş verdi');

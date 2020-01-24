@@ -29,14 +29,20 @@
               </div>
               <div class="col-md-3">
                 <select class="select2 form-control" name="shop_id">
-                  <option value="">Bütün mağazalar</option>
-                  @foreach ($shops as $key => $shop)
-                    @if(request()->get('shop_id') == $shop->id)
-                      <option value="{{$shop->id}}" selected>{{$shop->name}}</option>
-                    @else
-                      <option value="{{$shop->id}}">{{$shop->name}}</option>
+                  @if(auth()->user()->role_id == 1)
+                    <option value="all">Bütün mağazalar</option>
+                    @foreach ($shops as $key => $shop)
+                      <option value="{{$shop->id}}"
+                        @if(request()->get('shop_id') && request()->get('shop_id') == $shop->id)
+                          selected
+                        @endif>
+                        {{$shop->name}}</option>
+                      @endforeach
+                    @elseif(auth()->user()->role_id == 2)
+                      @if(auth()->user()->shop)
+                        <option value="{{auth()->user()->shop->id}}">{{auth()->user()->shop->name}}</option>
+                      @endif
                     @endif
-                  @endforeach
                 </select>
               </div>
               <div class="col-md-3">
