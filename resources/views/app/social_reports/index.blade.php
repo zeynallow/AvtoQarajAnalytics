@@ -230,7 +230,9 @@
                 </div>
                 <div class="row mt-3">
                   <div class="col-md-6">Şərhi</div>
-                  <div class="col-md-6">{{$report->client_comment}}</div>
+                  <div class="col-md-6" id="{{$report->id}}_view_client_comment">{{$report->client_comment}}</div>
+                  <div class="col-md-6" id="{{$report->id}}_edit_client_comment" style="display:none;"><input type="text" class="form-control" name="client_comment" value="{{$report->client_comment}}"/></div>
+
                 </div>
                 <div class="row mt-3">
                   <div class="col-md-6">Avtomobil</div>
@@ -287,12 +289,14 @@
     $("#" + report_id +'_view_client_auto_car').hide();
     $("#" + report_id +'_view_client_auto_year').hide();
     $("#" + report_id +'_view_client_auto_vin').hide();
+    $("#" + report_id +'_view_client_comment').hide();
 
     $("#" + report_id+'_edit_client_name').show();
     $("#" + report_id+'_edit_client_contact').show();
     $("#" + report_id+'_edit_client_auto_car').show();
     $("#" + report_id+'_edit_client_auto_year').show();
     $("#" + report_id+'_edit_client_auto_vin').show();
+    $("#" + report_id+'_edit_client_comment').show();
     $("#" + report_id+'_save').show();
   }
 

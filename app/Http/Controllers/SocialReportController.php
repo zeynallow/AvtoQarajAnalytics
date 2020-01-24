@@ -107,12 +107,12 @@ class SocialReportController extends Controller
   */
   public function store(Request $request){
 
-    $request->validate([
-      'shop_id'=>'required',
-    ],
-    [
-      'shop_id.required'=>'Mağaza seçilməyib'
-    ]);
+    // $request->validate([
+    //   'shop_id'=>'required',
+    // ],
+    // [
+    //   'shop_id.required'=>'Mağaza seçilməyib'
+    // ]);
 
     // if(empty($request->client_contact)){
     //   $report_status = 8;//Incomplete
@@ -132,7 +132,7 @@ class SocialReportController extends Controller
       'client_auto_year'=>$request->client_auto_year,
       'client_auto_vin'=>$request->client_auto_vin,
       'partner_comment'=>$request->partner_comment,
-      'report_status'=>$report_status,
+      'report_status'=>1,
       'username'=>$request->username,
       'status'=>0
     ]);
@@ -187,8 +187,9 @@ class SocialReportController extends Controller
       'client_auto_car'=>$request->client_auto_car,
       'client_auto_year'=>$request->client_auto_year,
       'client_auto_vin'=>$request->client_auto_vin,
+      'client_comment'=>$request->client_comment,
       'report_status'=>1, //pending
-      'status'=>1
+      'status'=>0
     ]);
 
     return redirect()->back();

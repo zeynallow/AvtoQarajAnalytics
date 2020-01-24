@@ -106,7 +106,7 @@
               <div class="col-md-3">
                 <label for="shop_name">Mağaza</label>
                 <select class="form-control select2" id="shop_id" name="shop_id">
-                  <option value=""></option>
+                  <option value="0">Fərdi elan</option>
                   @foreach ($shops as $key => $shop)
                     @if(old('shop_id') == $shop->id)
                       <option value="{{$shop->id}}" selected>{{$shop->name}}</option>
