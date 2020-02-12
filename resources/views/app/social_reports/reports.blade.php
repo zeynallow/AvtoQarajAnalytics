@@ -35,8 +35,12 @@
                   <div class="col-md-3">
                     <div class="form-group">
                       <label for="shop_id">Mağaza</label>
-                      <select class="form-control" id="shop_id" name="shop_id">
-                        @if(auth()->user()->role_id == 1)
+                      <select class="select2 form-control" name="shop_id">
+                        @if(auth()->user()->role_id == 2)
+                          @if(auth()->user()->shop)
+                            <option value="{{auth()->user()->shop->id}}">{{auth()->user()->shop->name}}</option>
+                          @endif
+                        @else
                           <option value="all">Bütün mağazalar</option>
                           @foreach ($shops as $key => $shop)
                             <option value="{{$shop->id}}"
@@ -45,10 +49,6 @@
                               @endif>
                               {{$shop->name}}</option>
                             @endforeach
-                          @elseif(auth()->user()->role_id == 2)
-                            @if(auth()->user()->shop)
-                              <option value="{{auth()->user()->shop->id}}">{{auth()->user()->shop->name}}</option>
-                            @endif
                           @endif
                         </select>
                       </div>

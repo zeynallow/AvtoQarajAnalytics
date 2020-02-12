@@ -17,6 +17,10 @@ class CategoryTrackController extends Controller
 
   public function categoryTrack(Request $request){
 
+    if(!$request->category_id){
+      return response()->json(['message'=>'failed']);
+    }
+
     $today_date = date("Y-m-d");
     $category_id = $request->category_id;
 
