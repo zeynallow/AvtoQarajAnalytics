@@ -220,6 +220,20 @@ class SocialReportController extends Controller
   }
 
   /*
+  * changeCancelRequest
+  */
+  public function changeCancelRequest($request_id,$description_id){
+    $user_role = Auth::user()->role_id;
+    $reports = SocialReport::where('id',$request_id)
+    ->update([
+      'reply_description'=>0,
+      'cancel_description'=>$description_id,
+      'status'=>1
+    ]);
+    return redirect()->back();
+  }
+
+  /*
   * Soft Delete
   */
   public function softDeleteRequest($request_id){
@@ -241,6 +255,20 @@ class SocialReportController extends Controller
     ->update([
       'report_status'=>($user_role == 2) ? 3 : 4,
       'reply_description'=>$description_id,
+      'status'=>1
+    ]);
+    return redirect()->back();
+  }
+
+  /*
+  * changeConfirmRequest
+  */
+  public function changeConfirmRequest($request_id,$description_id){
+    $user_role = Auth::user()->role_id;
+    $reports = SocialReport::where('id',$request_id)
+    ->update([
+      'reply_description'=>$description_id,
+      'cancel_description'=>0,
       'status'=>1
     ]);
     return redirect()->back();

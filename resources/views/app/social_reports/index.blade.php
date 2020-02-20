@@ -155,13 +155,13 @@
 
                   @if($report->get_report_replies)
                     <span class="btn btn-{{$report->get_report_replies->color}} btn-sm">{{$report->get_report_replies->description}}
-                      <a href="{{route('social_reports.confirmRequest',['request_id'=>$report->id,'desc'=>''])}}" class="change-status"><i style="color:#fff" class="fa fa-edit"></i></a>
+                      <a href="{{route('social_reports.changeConfirmRequest',['request_id'=>$report->id,'desc'=>''])}}" class="change-status"><i style="color:#fff" class="fa fa-edit"></i></a>
                     </span>
                   @endif
 
                   @if($report->get_report_cancels)
                     <span class="btn btn-{{$report->get_report_cancels->color}} btn-sm">{{$report->get_report_cancels->description}}
-                      <a href="{{route('social_reports.cancelRequest',['request_id'=>$report->id,'desc'=>''])}}" class="change-cancel-status"><i style="color:#fff" class="fa fa-edit"></i></a>
+                      <a href="{{route('social_reports.changeCancelRequest',['request_id'=>$report->id,'desc'=>''])}}" class="change-cancel-status"><i style="color:#fff" class="fa fa-edit"></i></a>
                     </span>
                   @endif
 
