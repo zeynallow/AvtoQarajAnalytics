@@ -154,11 +154,15 @@
                   @endif
 
                   @if($report->get_report_replies)
-                    <span class="btn btn-{{$report->get_report_replies->color}} btn-sm">{{$report->get_report_replies->description}}</span>
+                    <span class="btn btn-{{$report->get_report_replies->color}} btn-sm">{{$report->get_report_replies->description}}
+                      <a href="{{route('social_reports.confirmRequest',['request_id'=>$report->id,'desc'=>''])}}" class="change-status"><i style="color:#fff" class="fa fa-edit"></i></a>
+                    </span>
                   @endif
 
                   @if($report->get_report_cancels)
-                    <span class="btn btn-{{$report->get_report_cancels->color}} btn-sm">{{$report->get_report_cancels->description}}</span>
+                    <span class="btn btn-{{$report->get_report_cancels->color}} btn-sm">{{$report->get_report_cancels->description}}
+                      <a href="{{route('social_reports.cancelRequest',['request_id'=>$report->id,'desc'=>''])}}" class="change-cancel-status"><i style="color:#fff" class="fa fa-edit"></i></a>
+                    </span>
                   @endif
 
                 </h5>
@@ -358,6 +362,56 @@
       });
     });
 
+
+    $(document).on("click", ".change-status", function(e) {
+      e.preventDefault();
+      var href = $(this).attr('href');
+
+      bootbox.prompt({
+        title: "Statusu dəyişmək",
+        message: "Nəticəni seçin",
+        buttons: {
+          cancel: {
+            label: '<i class="fa fa-times"></i> Xeyir'
+          },
+          confirm: {
+            label: '<i class="fa fa-check"></i> Bəli'
+          }
+        },
+        inputType: 'select',
+        inputOptions: {!!$replies->toJson(JSON_UNESCAPED_UNICODE)!!},
+        callback: function (result) {
+          if(result){
+            window.location = href + '/'+result;
+          }
+        }
+      });
+    });
+
+    $(document).on("click", ".change-cancel-status", function(e) {
+      e.preventDefault();
+      var href = $(this).attr('href');
+
+      bootbox.prompt({
+        title: "Statusu dəyişmək",
+        message: "Nəticəni seçin",
+        buttons: {
+          cancel: {
+            label: '<i class="fa fa-times"></i> Xeyir'
+          },
+          confirm: {
+            label: '<i class="fa fa-check"></i> Bəli'
+          }
+        },
+        inputType: 'select',
+        inputOptions: {!!$cancels->toJson(JSON_UNESCAPED_UNICODE)!!},
+        callback: function (result) {
+          if(result){
+            window.location = href + '/'+result;
+          }
+        }
+      });
+    });
 
     $(document).on("click", ".check-confirm-alert", function(e) {
       e.preventDefault();
