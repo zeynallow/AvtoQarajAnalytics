@@ -150,8 +150,22 @@
                   Müraciət #{{$report->id}} -
 
                   @if($report->get_report_status)
-                    <span class="btn btn-{{$report->get_report_status->color}} btn-sm">{{$report->get_report_status->name}}</span>
+                    <span data-id="{{$report->id}}"class="change-r-status btn btn-{{$report->get_report_status->color}} btn-sm">{{$report->get_report_status->name}}
+                      <span><i style="color:#fff" class="fa fa-edit"></i></span>
+                    </span>
                   @endif
+
+
+                  <span id="changeSt_{{$report->id}}" style="display:none">
+                    <span class="btn btn-danger btn-sm">
+                      <a href="{{route('social_reports.changeRequestStatus',['request_id'=>$report->id,'status_id'=>2,'desc'=>''])}}" style="color:#fff" class="change-cancel-status">İmtina <i style="color:#fff" class="fa fa-times"></i></a>
+                    </span>
+
+                    <span class="btn btn-success btn-sm">
+                      <a href="{{route('social_reports.changeRequestStatus',['request_id'=>$report->id,'status_id'=>1,'desc'=>''])}}" style="color:#fff" class="change-status">Cavablanıb <i style="color:#fff" class="fa fa-check"></i></a>
+                    </span>
+                  </span>
+
 
                   @if($report->get_report_replies)
                     <span class="btn btn-{{$report->get_report_replies->color}} btn-sm">{{$report->get_report_replies->description}}
@@ -166,6 +180,9 @@
                   @endif
 
                 </h5>
+
+
+
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -360,6 +377,12 @@
           }
         }
       });
+    });
+
+    $('.change-r-status').click(function(){
+      var id = $(this).data('id');
+      $(this).hide();
+      $('#changeSt_'+id).fadeToggle();
     });
 
 

@@ -246,6 +246,40 @@ class SocialReportController extends Controller
     return redirect()->back();
   }
 
+
+  /*
+  * changeRequestStatus
+  */
+  public function changeRequestStatus($request_id,$status,$description_id){
+    $user_role = Auth::user()->role_id;
+    if($status == 1){ //confirm
+      if($user_role == 2){
+        $report_status = 3;
+      }else{
+        $report_status = 4;
+      }
+      $cancel_description=0;
+      $reply_description=$description_id;
+    }elseif($status == 2){ //cancel
+      if($user_role == 2){
+        $report_status = 2;
+      }else{
+        $report_status = 5;
+      }
+      $cancel_description=$description_id;
+      $reply_description=0;
+    }
+
+    $reports = SocialReport::where('id',$request_id)
+    ->update([
+      'report_status'=>$report_status,
+      'reply_description'=>$reply_description,
+      'cancel_description'=>$cancel_description,
+      'status'=>1
+    ]);
+    return redirect()->back();
+  }
+
   /*
   * confirmRequest
   */
