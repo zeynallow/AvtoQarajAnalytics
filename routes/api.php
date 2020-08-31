@@ -30,6 +30,8 @@ Route::group(['middleware' => 'cors'], function () {
             Route::get('logout', 'AuthController@logout');
             Route::get('refresh', 'AuthController@refresh');
             Route::get('me', 'AuthController@me');
+
+            Route::post('sendOtp', 'RecoverPasswordController@sendOtp')->name('sendOtp');
         });
     });
 
