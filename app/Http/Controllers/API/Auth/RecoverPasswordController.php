@@ -45,7 +45,7 @@ class RecoverPasswordController extends Controller
         $request->validate([
             'code' => 'required|max:6',
             'password' => 'required|confirmed',
-            'token' => 'required|string'
+            'otp_token' => 'required|string'
         ]);
 
         $otpAuth = OtpAuthentication::where(['token' => $request->token, 'expired' => OtpAuthentication::ACTIVE])->first();
