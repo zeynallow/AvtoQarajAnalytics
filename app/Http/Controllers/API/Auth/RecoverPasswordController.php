@@ -25,13 +25,13 @@ class RecoverPasswordController extends Controller
 //        OtpAuthentication::create([
 //            'otp' => $otp,
 //            'email' => $request->email,
-//            'token' => Str::random(60),
+//            'token' => $token,
 //        ]);
 
         OtpAuthentication::create([
             'otp' => 12345,
             'email' => $request->email,
-            'token' => Str::random(60),
+            'token' => $token,
         ]);
 
 //        Event::dispatch(new SendMail(
@@ -54,7 +54,7 @@ class RecoverPasswordController extends Controller
             'otp_token' => 'required|string'
         ]);
 
-        $otpAuth = OtpAuthentication::where(['token' => $request->token, 'expired' => OtpAuthentication::ACTIVE])->first();
+        $otpAuth = OtpAuthentication::where(['token' => $request->otp_token, 'expired' => OtpAuthentication::ACTIVE])->first();
 
         if($otpAuth){
             if($otpAuth->code != $request->code){
