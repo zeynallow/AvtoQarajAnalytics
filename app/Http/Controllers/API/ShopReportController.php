@@ -83,4 +83,24 @@ class ShopReportController extends Controller
             'data' => SocialReportCancel::all()
         ]);
     }
+
+    public function changeReportStatus(Request $request, SocialReport $report){
+        $request->validate([
+            'descriptionId' => 'required|integer',
+            'type' => 'required|integer'
+        ]);
+
+        $report_status = $request->type == SocialReport::TYPE_ACCEPT ? 3 : 2;
+        $description_type_name = $request->type == SocialReport::TYPE_ACCEPT ? 'reply_description' : 'cancel_description';
+
+        $report->update([
+            $description_type_name => $request->descriptionId,
+            'status' => 1,
+            'report_status' => $report_status,
+        ]);
+
+        return response()->json([
+            'message' => 'success'
+        ]);
+    }
 }
