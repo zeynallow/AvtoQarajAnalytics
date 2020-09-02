@@ -10,6 +10,9 @@ class SocialReport extends Model
     const NETWORK_TYPE_INSTAGRAM = 2;
     const NETWORK_TYPE_WHATSAPP = 3;
 
+    const TYPE_ACCEPT = 1;
+    const TYPE_REJECT = 2;
+
   protected $fillable = [
     'network_type',
     'product_id',
@@ -24,7 +27,9 @@ class SocialReport extends Model
     'partner_comment',
     'report_status',
     'status',
-    'username'
+    'username',
+    'reply_description',
+    'cancel_description',
   ];
 
   public function getShop(){

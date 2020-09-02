@@ -23,7 +23,6 @@ Route::group(['middleware' => 'cors'], function () {
 
     Route::get('/cardata/getMake/{car_type_id}', 'API\CarDataController@getMake');
 
-
     Route::prefix('v1')->namespace('API')->group(function(){
         Route::namespace('Auth')->group(function (){
             Route::post('login', 'AuthController@login');
@@ -40,6 +39,7 @@ Route::group(['middleware' => 'cors'], function () {
 
         Route::get('sendAcceptMessages', 'ShopReportController@sendAcceptMessages');
         Route::get('sendCancelMessages', 'ShopReportController@sendCancelMessages');
+        Route::put('changeReportStatus/{report}', 'ShopReportController@changeReportStatus');
     });
 
 });
