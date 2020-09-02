@@ -22,18 +22,24 @@ class RecoverPasswordController extends Controller
         $otp = $this->otpGenerator();
         $token = Str::random(60);
 
+//        OtpAuthentication::create([
+//            'otp' => $otp,
+//            'email' => $request->email,
+//            'token' => Str::random(60),
+//        ]);
+
         OtpAuthentication::create([
-            'otp' => $otp,
+            'otp' => 12345,
             'email' => $request->email,
             'token' => Str::random(60),
         ]);
 
-        Event::dispatch(new SendMail(
-            $request->email,
-            'Şifrə bərpa kodu',
-            $this->otpGenerator(),
-            'app.emails.otp'
-        ));
+//        Event::dispatch(new SendMail(
+//            $request->email,
+//            'Şifrə bərpa kodu',
+//            $this->otpGenerator(),
+//            'app.emails.otp'
+//        ));
 
         return response()->json([
             'message' => 'success',
