@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ShopReportResource;
 use App\Http\Resources\ShopReportResourceCollection;
 use App\SocialReport;
+use App\SocialReportCancel;
+use App\SocialReportReply;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -65,6 +67,20 @@ class ShopReportController extends Controller
         return response()->json([
             'message' => 'success',
             'data' => new ShopReportResource($report)
+        ]);
+    }
+
+    public function sendAcceptMessages(){
+        return response()->json([
+            'message' => 'success',
+            'data' => SocialReportReply::all()
+        ]);
+    }
+
+    public function sendCancelMessages(){
+        return response()->json([
+            'message' => 'success',
+            'data' => SocialReportCancel::all()
         ]);
     }
 }

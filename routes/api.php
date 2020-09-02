@@ -37,6 +37,9 @@ Route::group(['middleware' => 'cors'], function () {
 
         Route::get('shops/{shopId}/reports', 'ShopReportController@index');
         Route::get('shops/{shopId}/reports/{report}', 'ShopReportController@getReport');
+
+        Route::get('sendAcceptMessages', 'ShopReportController@sendAcceptMessages');
+        Route::get('sendCancelMessages', 'ShopReportController@sendCancelMessages');
     });
 
 });
