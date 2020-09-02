@@ -34,6 +34,9 @@ Route::group(['middleware' => 'cors'], function () {
             Route::post('sendOtp', 'RecoverPasswordController@sendOtp')->name('sendOtp');
             Route::post('recoverPassword', 'RecoverPasswordController@recoverPassword')->name('recoverPassword');
         });
+
+        Route::get('shops/{shopId}/reports', 'ShopReportController@index');
+        Route::get('shops/{shopId}/reports/{report}', 'ShopReportController@getReport');
     });
 
 });

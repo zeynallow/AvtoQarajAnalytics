@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class SocialReport extends Model
 {
+    const NETWORK_TYPE_FACEBOOK = 1;
+    const NETWORK_TYPE_INSTAGRAM = 2;
+    const NETWORK_TYPE_WHATSAPP = 3;
 
   protected $fillable = [
     'network_type',
