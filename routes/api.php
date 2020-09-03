@@ -29,6 +29,7 @@ Route::group(['middleware' => 'cors'], function () {
             Route::get('logout', 'AuthController@logout');
             Route::get('refresh', 'AuthController@refresh');
             Route::get('me', 'AuthController@me');
+            Route::put('password/update', 'AuthController@updatePassword');
 
             Route::post('sendOtp', 'RecoverPasswordController@sendOtp')->name('sendOtp');
             Route::post('recoverPassword', 'RecoverPasswordController@recoverPassword')->name('recoverPassword');
