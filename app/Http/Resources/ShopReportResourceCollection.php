@@ -25,6 +25,7 @@ class ShopReportResourceCollection extends JsonResource
             'network' => $network,
             'statusId' => $this->get_report_status->id,
             'statusName' => $this->get_report_status->name,
+            'statusColor' => $this->get_report_status->color,
         ];
     }
 }
