@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Auth;
 
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
@@ -23,7 +24,10 @@ class AuthController extends Controller{
     }
 
     public function me(){
-        return response()->json(auth()->guard('api')->user());
+        return response()->json([
+           'message' => 'success',
+           'data' => new UserResource(auth()->guard('api')->user()->load('shop')),
+        ],Response::HTTP_OK);
     }
 
     public function logout(){
