@@ -62,7 +62,7 @@ class RecoverPasswordController extends Controller
                     'message' => 'error',
                     'data' => 'OTP şifrə yalnışdır'
                 ];
-                $status = Response::HTTP_BAD_REQUEST;
+                $status = Response::HTTP_UNPROCESSABLE_ENTITY;
             }
             User::where('email', $otpAuth->email)->update(['password' => Hash::make($request->password)]);
             $otpAuth->update(['expired' => OtpAuthentication::EXPIRED]);
@@ -77,7 +77,7 @@ class RecoverPasswordController extends Controller
                 'message' => 'error',
                 'data' => 'Token yalnışdır və ya artıq aktiv deyil'
             ];
-            $status = Response::HTTP_BAD_REQUEST;
+            $status = Response::HTTP_UNPROCESSABLE_ENTITY;
         }
 
         return response()->json($response, $status);
