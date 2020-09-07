@@ -51,7 +51,7 @@ class ShopReportController extends Controller
                 return response()->json([
                     'message' => 'error',
                     'data' => ['date' => 'Müddət 60 gündən çox olmamalıdır']
-                ], Response::HTTP_BAD_REQUEST);
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
             $_reports->whereBetween('created_at', [$start_date, $end_date]);
