@@ -20,8 +20,8 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'shopId' => $this->shop_id,
             'shopName' => $this->shop->name,
-            'shopCover' => url('/storage').'/'.$this->shop->cover,
-            'shopLogo' => url('/storage').'/'.$this->shop->logo,
+            'shopCover' => env('PRIMARY_WEB_URL').'/storage/'.$this->shop->cover,
+            'shopLogo' => env('PRIMARY_WEB_URL').'/storage/'.$this->shop->logo,
         ];
     }
 }
