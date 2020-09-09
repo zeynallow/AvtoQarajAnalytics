@@ -8,6 +8,7 @@ use App\Http\Resources\ShopReportResourceCollection;
 use App\SocialReport;
 use App\SocialReportCancel;
 use App\SocialReportReply;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -41,6 +42,8 @@ class ShopReportController extends Controller
             $start_date = trim($date_range[0].'-'.$date_range[1].'-'.$date_range[2]);
             $end_date = trim($date_range[3].'-'.$date_range[4].'-'.$date_range[5]);
 
+
+            dd($end_date);
             //check export period
             $datetime1 = new DateTime($start_date);
             $datetime2 = new DateTime($end_date);
