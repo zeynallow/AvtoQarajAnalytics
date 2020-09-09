@@ -22,7 +22,7 @@ class ShopReportResource extends JsonResource
             'id' => $this->id,
             'clientName' => $this->client_name,
             'clientPhone' => $this->client_contact,
-            'comment' => $this->partnet_comment,
+            'comment' => $this->client_comment,
             'carName' => $this->client_auto_car,
             'carReleaseYear' => $this->client_auto_year,
             'carVin' => $this->client_auto_vin,
