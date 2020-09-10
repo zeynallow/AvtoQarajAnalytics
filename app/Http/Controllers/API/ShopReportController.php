@@ -51,7 +51,11 @@ class ShopReportController extends Controller
             if($days > 60){
                 return response()->json([
                     'message' => 'error',
-                    'data' => ['date' => 'Müddət 60 gündən çox olmamalıdır']
+                    'data' => [
+                        "errors" => [
+                            "date" => 'Müddət 60 gündən çox olmamalıdır'
+                        ]
+                    ]
                 ], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
@@ -95,7 +99,9 @@ class ShopReportController extends Controller
             return response()->json([
                 'message' => 'error',
                 'data' => [
-                    'type' => 'Yalnış tip'
+                    "errors" => [
+                        'type' => 'Yalnış tip'
+                    ]
                 ]
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
