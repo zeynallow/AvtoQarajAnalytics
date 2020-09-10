@@ -17,7 +17,17 @@ class AuthController extends Controller{
     public function login(){
         $credentials = request(['email', 'password']);
         if(! $token = auth()->guard('api')->attempt($credentials)){
-            return response()->json(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
+            return response()->json(
+                [
+                    "message" => 'error',
+                    "data" => [
+                        'errors' =>
+                        [
+                            "login" => 'Unauthorized'
+                        ]
+                    ]
+                ],
+                Response::HTTP_UNAUTHORIZED);
         }
 
         return $this->respondWithToken($token);
@@ -59,7 +69,11 @@ class AuthController extends Controller{
         if(!Hash::check($request->old_password, $user->password)){
             return response()->json([
                 'message' => 'error',
-                'data' => 'Köhnə şifrə yalnışdır'
+                'data' => [
+                    "errors" => [
+                        "password" => 'Köhnə şifrə yalnışdır'
+                    ]
+                ]
             ]);
         }
 

@@ -60,7 +60,11 @@ class RecoverPasswordController extends Controller
             if($otpAuth->code != $request->code){
                 $response = [
                     'message' => 'error',
-                    'data' => 'OTP şifrə yalnışdır'
+                    'data' => [
+                        'errors' => [
+                            'otp' => 'OTP şifrə yalnışdır'
+                        ]
+                    ]
                 ];
                 $status = Response::HTTP_UNPROCESSABLE_ENTITY;
             }
@@ -75,7 +79,11 @@ class RecoverPasswordController extends Controller
         }else{
             $response = [
                 'message' => 'error',
-                'data' => 'Token yalnışdır və ya artıq aktiv deyil'
+                'data' => [
+                    'errors' => [
+                        'token' => 'Token yalnışdır və ya artıq aktiv deyil'
+                    ]
+                ]
             ];
             $status = Response::HTTP_UNPROCESSABLE_ENTITY;
         }
