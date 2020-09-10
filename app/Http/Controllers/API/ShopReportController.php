@@ -91,6 +91,14 @@ class ShopReportController extends Controller
             'type' => 'required|integer'
         ]);
 
+        if($request->type !=  SocialReport::TYPE_ACCEPT && $request->type !=  SocialReport::TYPE_REJECT ){
+            return response()->json([
+                'message' => 'error',
+                'data' => [
+                    'type' => 'Yalnış tip'
+                ]
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
         $report_status = $request->type == SocialReport::TYPE_ACCEPT ? 3 : 2;
         $description_type_name = $request->type == SocialReport::TYPE_ACCEPT ? 'reply_description' : 'cancel_description';
 
@@ -101,7 +109,8 @@ class ShopReportController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'success'
+            'message' => 'success',
+            'data' => []
         ]);
     }
 }
