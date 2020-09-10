@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller{
     public function __construct()
@@ -60,10 +61,28 @@ class AuthController extends Controller{
     }
 
     public function updatePassword(Request $request){
-        $request->validate([
+
+        $rules = [
             'old_password' => 'required|string',
             'password' => 'required|confirmed|string',
-        ]);
+        ];
+
+        $messages = [
+            'old_password.required' => 'Köhnə şifrə tələb olunur.',
+            'password.required' => 'Yeni şifrə tələb olunur.',
+            'password.confirmed' => 'Şifrənin təsdiqi yalnışdır.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if($validator->fails()){
+            return response()->json([
+                'message' => 'error',
+                'data' => [
+                    'errors' => $validator->getMessageBag()
+                ]
+            ]);
+        }
 
         $user = auth()->guard('api')->user();
         if(!Hash::check($request->old_password, $user->password)){
@@ -74,14 +93,14 @@ class AuthController extends Controller{
                         "password" => 'Köhnə şifrə yalnışdır'
                     ]
                 ]
-            ]);
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $user->update(['password' => Hash::make($request->password)]);
 
         return response()->json([
             'message' => 'success',
-            'data' => 'Logged in'
+            'data' => ''
         ]);
     }
 }

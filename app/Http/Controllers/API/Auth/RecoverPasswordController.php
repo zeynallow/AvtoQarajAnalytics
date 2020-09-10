@@ -10,14 +10,31 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class RecoverPasswordController extends Controller
 {
     public function sendOtp(Request $request){
-        $request->validate([
+        $rules = [
             'email' => 'required|email',
-        ]);
+        ];
+
+        $messages = [
+            'email.required' => 'Email tələb olunur.',
+            'email' => 'Email yalnış formatdadır.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if($validator->fails()){
+            return response()->json([
+                'message' => 'error',
+                'data' => [
+                    'errors' => $validator->getMessageBag()
+                ]
+            ]);
+        }
 
         $otp = $this->otpGenerator();
         $token = Str::random(60);
@@ -48,11 +65,30 @@ class RecoverPasswordController extends Controller
     }
 
     public function recoverPassword(Request $request){
-        $request->validate([
-            'code' => 'required|max:6',
+        $rules = [
+            'code' => 'required',
             'password' => 'required|confirmed',
             'otp_token' => 'required|string'
-        ]);
+        ];
+
+        $messages = [
+            'code.required' => 'Otp kod tələb olunur.',
+            'password.required' => 'Şifrə tələb olunur.',
+            'password.confirmed' => 'Şifrənin təsdiqi yalnışdır.',
+            'otp_token.required' => 'Otp token tələb olunur.',
+            'otp_token.string' => 'Otp token yalnış formatdadır.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if($validator->fails()){
+            return response()->json([
+                'message' => 'error',
+                'data' => [
+                    'errors' => $validator->getMessageBag()
+                ]
+            ]);
+        }
 
         $otpAuth = OtpAuthentication::where(['token' => $request->otp_token, 'expired' => OtpAuthentication::ACTIVE])->first();
 
