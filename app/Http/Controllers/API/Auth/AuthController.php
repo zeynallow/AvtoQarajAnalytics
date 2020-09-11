@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Resources\UserResource;
+use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
@@ -29,6 +30,15 @@ class AuthController extends Controller{
                     ]
                 ],
                 Response::HTTP_UNAUTHORIZED);
+        }elseif(auth()->guard('api')->user()->role_id != Role::SHOP_ROLE_ID){
+            return response()->json([
+                'message' => 'Error',
+                'data' => [
+                    'errors' => [
+                        'login' => 'Login etmək üçün mağaza qeydiyyatı olmalısınız',
+                    ]
+                ]
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         return $this->respondWithToken($token);
