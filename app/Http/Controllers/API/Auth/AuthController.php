@@ -91,7 +91,7 @@ class AuthController extends Controller{
                 'data' => [
                     'errors' => $validator->getMessageBag()
                 ]
-            ]);
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $user = auth()->guard('api')->user();
