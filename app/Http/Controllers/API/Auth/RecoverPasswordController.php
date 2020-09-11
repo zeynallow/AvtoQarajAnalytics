@@ -33,7 +33,7 @@ class RecoverPasswordController extends Controller
                 'data' => [
                     'errors' => $validator->getMessageBag()
                 ]
-            ]);
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $otp = $this->otpGenerator();
