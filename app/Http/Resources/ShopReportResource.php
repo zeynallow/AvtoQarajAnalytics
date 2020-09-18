@@ -15,8 +15,8 @@ class ShopReportResource extends JsonResource
      */
     public function toArray($request)
     {
-        $network = ($request->network_type == SocialReport::NETWORK_TYPE_FACEBOOK ? 'facebook' :
-        ($request->network_type == SocialReport::NETWORK_TYPE_INSTAGRAM ? 'instagram' : 'whatsapp'));
+        $network = ($this->network_type == SocialReport::NETWORK_TYPE_FACEBOOK ? 'facebook' :
+            ($this->network_type == SocialReport::NETWORK_TYPE_INSTAGRAM ? 'instagram' : 'whatsapp'));
 
         return [
             'id' => $this->id,
