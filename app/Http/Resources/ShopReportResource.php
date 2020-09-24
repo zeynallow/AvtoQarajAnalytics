@@ -18,6 +18,8 @@ class ShopReportResource extends JsonResource
         $network = ($this->network_type == SocialReport::NETWORK_TYPE_FACEBOOK ? 'facebook' :
             ($this->network_type == SocialReport::NETWORK_TYPE_INSTAGRAM ? 'instagram' : 'whatsapp'));
 
+        $socialUrl = ($this->network_type == SocialReport::NETWORK_TYPE_FACEBOOK ? SocialReport::FACEBOOK_URL.'/'.$this->username :
+                     ($this->network_type == SocialReport::NETWORK_TYPE_INSTAGRAM ? SocialReport::INSTAGRAM_URL.'/'.$this->username : SocialReport::WHATSAPP_URL.'/'.$this->username));
         return [
             'id' => $this->id,
             'clientName' => $this->client_name,
@@ -30,6 +32,7 @@ class ShopReportResource extends JsonResource
             'updatedDate' => $this->updated_at,
             'productName' => $this->product_name,
             'network' => $network,
+            'socialUrl' => $socialUrl,
             'statusId' => $this->get_report_status->id,
             'statusName' => $this->get_report_status->name,
             'statusColor' => $this->get_report_status->color,
