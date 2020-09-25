@@ -19,7 +19,7 @@ class ShopReportResource extends JsonResource
             ($this->network_type == SocialReport::NETWORK_TYPE_INSTAGRAM ? 'instagram' : 'whatsapp'));
 
         $socialUrl = ($this->network_type == SocialReport::NETWORK_TYPE_FACEBOOK ? SocialReport::FACEBOOK_URL.'/'.$this->username :
-                     ($this->network_type == SocialReport::NETWORK_TYPE_INSTAGRAM ? SocialReport::INSTAGRAM_URL.'/'.$this->username : SocialReport::WHATSAPP_URL.'/'.$this->username));
+                     ($this->network_type == SocialReport::NETWORK_TYPE_INSTAGRAM ? SocialReport::INSTAGRAM_URL.'/'.ltrim($this->username,'@') : SocialReport::WHATSAPP_URL.'/'.$this->username));
         return [
             'id' => $this->id,
             'clientName' => $this->client_name,
