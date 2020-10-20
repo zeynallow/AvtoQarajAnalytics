@@ -41,6 +41,8 @@ Route::group(['middleware' => 'cors'], function () {
         Route::get('sendAcceptMessages', 'ShopReportController@sendAcceptMessages');
         Route::get('sendCancelMessages', 'ShopReportController@sendCancelMessages');
         Route::put('changeReportStatus/{report}', 'ShopReportController@changeReportStatus');
+        Route::post('storePlayerId', 'NotificationController@storePlayerId')->name('storePlayerId');
+
     });
 
 });
