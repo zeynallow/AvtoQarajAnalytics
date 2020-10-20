@@ -14,5 +14,6 @@ class DatabaseSeeder extends Seeder
         $this->call(SocialReportStatus::class);
         $this->call(SocialReportReply::class);
         $this->call(SocialReportCancel::class);
+        $this->call(TestUserSeeder::class);
     }
 }
